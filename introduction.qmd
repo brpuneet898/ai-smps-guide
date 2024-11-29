@@ -68,12 +68,6 @@ A Search Algorithm navigates through the State Space using MoveGen and Goal Stat
 
 Thus, I cannot stress enough the importance of search algorithms’ applications in various domains, from optimising routes in Google Maps to solving puzzles like river crossing. Thus, it highlights the power and relevance of these computational methods. These algorithms help in enhanced decision making, optimising the solutions, achieving desired results in an efficient manner. Understanding these algorithms in depth and utilising them in practical applications will enhance the problem solving capabilities. Also, it will drive the future innovation drive in varied fields. 
 
-<div style="display: flex; justify-content: space-between; width: 100%;">
-  <a href="https://brpuneet898.github.io/ai-smps-guide/" style="text-align: left;">Table of Contents</a>
-  <a href="https://brpuneet898.github.io/ai-smps-guide/uninformed.html" style="text-align: right;">Uninformed Search Algorithms</a>
-</div>
-
-
 [^1]: McConnachie, J. (2022). Man vs machine: How Artificial Intelligence beats us in board games. TLS. Times Literary Supplement, (6202), 23-24. [Link](https://go.gale.com/ps/i.do?id=GALE%7CA695918409&sid=googleScholar&v=2.1&it=r&linkaccess=abs&issn=0307661X&p=AONE&sw=w&userGroupName=anon%7E28cd6843&aty=open-web-entry)
 [^2]: Mehta, H., Kanani, P., & Lande, P. (2019). Google maps. International Journal of Computer Applications, 178(8), 41-46. [Link](https://www.ijcaonline.org/archives/volume178/number8/30554-2019918791/)
 [^3]: Lampis, M., & Mitsou, V. (2007). Generalizing Alcuin’s River Crossing Problem. In 11th Panhellenic Conference in Informatics (pp. 617-626). [Link](http://pci2007.upatras.gr/proceedings/PCI2007_volA/A_617-626_Lampis.pdf)

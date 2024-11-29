@@ -1,4 +1,20 @@
 project:
   type: website
 
-# navbar: false
+website:
+  navbar:
+    background: primary
+    search: true
+    left:
+      - text: "Index"
+        href: index.qmd
+      - text: "Introduction"
+        href: introduction.qmd
+      - text: "Uninformed Algos"
+        href: uninformed.qmd
+        menu: 
+          - text: "BFS"
+            href: bfs.qmd
+          - text: "DFS"
+            href: dfs.qmd
+
