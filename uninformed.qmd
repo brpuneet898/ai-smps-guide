@@ -1,0 +1,9 @@
+---
+title: "Uninformed Search Algorithms"
+format:
+  html:
+    code-fold: true
+jupyter: python3
+---
+
+The Search Algorithms which have no prior information regarding the Goal State except for the ones provided in the problem statement are called Uninformed Search Algorithms. In order to reach the Goal State from the Start State, these algorithms do a Blind Search - generating a successor at each node and checking whether the Goal State Function is satisfied at that State. Few types of uninformed search algorithms include Breadth-First Search (BFS), Depth-First Search (DFS), Uniform Cost Search (UCS), Iterative Deepening DFS (IDDFS), and Depth Limited Search (DLS). Each algorithm has a unique way of exploring the search space, some do by going level by level, some other move as per the depth parameter, etc. Another important point to note is that these algorithms are relatively simpler to implement, but are not very efficient. This is due to the fact that they do not prioritise or direct the search towards the most promising paths. Thus, they might require a large amount of computational resources and time to find the goal state, particularly in the complex problem domains. 

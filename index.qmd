@@ -1,0 +1,14 @@
+---
+title: "Complete Guide to AI-SMPS"
+output: 
+  html: 
+    toc: true
+    toc_depth: 2
+---
+
+# Table of Contents
+
+- [Introduction](introduction.qmd)
+- [Uninformed Search](uninformed.qmd)
+  - [Breadth-First Search (BFS)](bfs.qmd)
+  - [Depth-First Search (DFS)](dfs.qmd)
