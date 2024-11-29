@@ -6,3 +6,139 @@ format:
 jupyter: python3
 ---
 
+Breadth First Search (BFS) is an approach that is used to travel through a graph systematically. BFS explores all the neighbours of a Node (State) prior to moving to the next state. It ensures that all nodes at the same depth are visited before moving to the next deeper layer. BFS often is preferred to find shortest paths in an unweighted graph. 
+
+Let there be a graph G which has a set of V vertices and a set of E edges. Thus, we can write:
+
+$$ G = (V,E) $$
+
+Firstly, all the vertices of G are unexplored. BFS begins with a chosen vertex and explores all its neighbours on the same depth. Further it moves to the neighbours of those vertices, repeating this process until all reachable vertices have been visited. For each vertex, $$ v \in V, $$ We can have a bunch of $$ w \in V, $$ such that $$ \exists edge\ $$ Between v and w, $$ (v, w) \in E. $$ These relationships can be represented using an Adjacency List. [^1],[^2] When it comes to implementation, BFS is implemented using Queue:
+
+<ul>
+  <li>**Step 1:** Take a queue and initialise it with the starting node.</li>
+  <li>**Step 2:** Move to the first vertex in the queue and mark it as visited. Dequeue it.</li>
+  <li>**Step 3:** Add all the non-visited adjacent vertices of the current vertex to the queue.</li>
+  <li>**Step 4:** Keep repeating Step 2 and 3 till the queue is empty.</li>
+  <li>**Step 5:** Once the goal state is found, terminate the traversal.</li>
+</ul>
+
+### Pseudocode for BFS Algorithm
+
+```plaintext
+1. function BFS(graph, start, target):
+2.     if start == target, return [start]
+3.     initialise queue with path [start]
+4.     initialise visited set with start
+5.     while queue is not empty:
+6.         current_path = dequeue from queue
+7.         current_node = last node in current_path
+8.         for each neighbour of current_node:
+9.             if neighbour not in visited:
+10.                if neighbour == target, return new path with neighbour
+11.                else, enqueue new path and mark neighbour as visited
+12.     return empty list (no path found)
+```
+Let us look at an example where BFS can help traverse a State Space Graph:
+
+```{dot}
+digraph bfs_graph {
+  A [label="A" shape=circle];
+  B [label="B" shape=circle];
+  C [label="C" shape=circle];
+  D [label="D" shape=circle];
+  E [label="E" shape=circle];
+  F [label="F" shape=circle];
+  A -> B;
+  A -> C;
+  B -> D;
+  B -> E;
+  C -> F;
+  rankdir="TB"; 
+  labelloc="b";
+  label="BFS Traversal from Node A";
+}
+```
+
+Let A be the Start State with F being the Goal State. A queue would be maintained to to keep track of the nodes:
+
+<ul>
+  <li>**Step 1:** Take a queue and initialise it with the Start State/Starting Node A.</li>
+  <li>**Step 2:** Visit A. Dequeue A. Put its children B and C in the queue.</li>
+  <li>**Step 3:** Move to B. Dequeue B. Put its children D and E in the queue.</li>
+  <li>**Step 4:** Move to C. Dequeue C. Put its child node F in the queue.</li>
+  <li>**Step 5:** Visit D. Dequeue D. It has no neighbour that is not visited; do nothing.</li>
+  <li>**Step 6:** Move to E. Dequeue E. It has no neighbour that is not visited; do nothing.</li>
+  <li>**Step 7:** Visit F. Dequeue F. Since F is the Goal State, stop traversal.</li>
+</ul>
+
+The path to be travelled is A→B→C→D→E→F. BFS explores all neighbours to find the shortest path in an unweighted graph. It is highly effective in solving problems related to connectivity.
+
+### BFS Algorithm Implementation
+
+First, we import the required libraries. The `deque` is imported from the `collections` module, which is a specialized list type that supports fast appends and pops from both ends. This is ideal for implementing the BFS (Breadth-First Search) algorithm, as BFS needs to efficiently manage the queue of nodes to visit.
+
+```{python}
+# You are given an undirected graph represented as an adjacency list. You need to find the shortest path from a starting node to a target node in the graph using the BFS algorithm.
+
+from collections import deque
+```
+
+Then, we define the `bfs` function to implement the Breadth-First Search algorithm. The function takes a graph (represented as an adjacency list), a start node, and a target node as arguments. It searches for the shortest path between the start and target nodes using BFS. If the start and target nodes are the same, it immediately returns the path consisting only of the start node.
+
+```{python}
+# function to perform BFS and find the shortest path
+def bfs(graph, start, target):
+    # first check if the start and target are the same
+    if start == target:
+        return [start]
+    
+    # queue to manage nodes to visit (FIFO order)
+    queue = deque([[start]])  # each item in the queue is a path
+    # set to keep track of visited nodes
+    visited = set([start])
+
+    while queue:
+        # get the current path from the queue
+        current_path = queue.popleft()
+        # get the last node in the current path
+        current_node = current_path[-1]
+
+        # check each neighbor of the current node
+        for neighbor in graph[current_node]:
+            if neighbor not in visited:
+                # create a new path by appending the neighbor to the current path
+                new_path = list(current_path)  # copy the current path
+                new_path.append(neighbor)
+                
+                # once you reached the target, return the new path
+                if neighbor == target:
+                    return new_path
+                
+                # else, add the new path to the queue and mark the neighbor as visited
+                queue.append(new_path)
+                visited.add(neighbor)
+    
+    # If no path is found or no solution exists, return an empty list
+    return []
+```
+
+In this step, we define a simple graph using an adjacency list and set the start and target nodes. The graph has nodes labeled 0, 1, 2, and 3, and edges between them. The `bfs` function is then called with the graph, starting node `0`, and target node `3`. Finally, the shortest path found by BFS is printed.
+
+```{python}
+# Adjacency List
+graph = {
+    0: [1, 2],
+    1: [0, 3],
+    2: [0, 3],
+    3: [1, 2]
+}
+start_node = 0
+target_node = 3
+shortest_path = bfs(graph, start_node, target_node)
+
+print("Shortest path from", start_node, "to", target_node, ":", shortest_path)
+```
+
+
+[^1]: Chapter 14 - BFS, CMU Notes [Link](https://www.cs.cmu.edu/afs/cs/academic/class/15210-s15/www/lectures/bfs-notes.pdf)
+[^2]: Presentation, Algorithm Design and Applications, by M. T. Goodrich and R. Tamassia, Wiley, 2015  [Link](https://ics.uci.edu/~goodrich/teach/cs260P/notes/BFS.pdf)

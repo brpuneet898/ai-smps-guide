@@ -21,6 +21,28 @@
     ]
   },
   {
+    "objectID": "bfs.html",
+    "href": "bfs.html",
+    "title": "BFS",
+    "section": "",
+    "text": "Breadth First Search (BFS) is an approach that is used to travel through a graph systematically. BFS explores all the neighbours of a Node (State) prior to moving to the next state. It ensures that all nodes at the same depth are visited before moving to the next deeper layer. BFS often is preferred to find shortest paths in an unweighted graph.\nLet there be a graph G which has a set of V vertices and a set of E edges. Thus, we can write:\n\\[ G = (V,E) \\]\nFirstly, all the vertices of G are unexplored. BFS begins with a chosen vertex and explores all its neighbours on the same depth. Further it moves to the neighbours of those vertices, repeating this process until all reachable vertices have been visited. For each vertex, \\[ v \\in V, \\] We can have a bunch of \\[ w \\in V, \\] such that \\[ \\exists edge\\ \\] Between v and w, \\[ (v, w) \\in E. \\] These relationships can be represented using an Adjacency List. 1,2 When it comes to implementation, BFS is implemented using Queue:",
+    "crumbs": [
+      "Uninformed Search Algorithms",
+      "Breadth-First Search (BFS)"
+    ]
+  },
+  {
+    "objectID": "bfs.html#footnotes",
+    "href": "bfs.html#footnotes",
+    "title": "BFS",
+    "section": "Footnotes",
+    "text": "Footnotes\n\n\nChapter 14 - BFS, CMU Notes Link↩︎\nPresentation, Algorithm Design and Applications, by M. T. Goodrich and R. Tamassia, Wiley, 2015 Link↩︎",
+    "crumbs": [
+      "Uninformed Search Algorithms",
+      "Breadth-First Search (BFS)"
+    ]
+  },
+  {
     "objectID": "introduction.html",
     "href": "introduction.html",
     "title": "Introduction",

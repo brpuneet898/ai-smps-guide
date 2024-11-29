@@ -32,7 +32,6 @@ Each such problem have certain frequently occurring elements associated with the
 
 ```{dot}
 graph G {
-    layout=neato;  
     label = "State transitions leading to the goal";  
     labelloc = "b";  
     rankdir = "TB";
