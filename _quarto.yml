@@ -1,19 +1,44 @@
 project:
   type: website
 
+# website:
+#   navbar:
+#     background: primary
+#     search: true
+#     left:
+#       - text: "Index"
+#         href: index.qmd
+#       - text: "Introduction"
+#         href: introduction.qmd
+#       - text: "Uninformed"
+#         href: uninformed.qmd
+
+#   sidebar:
+#     - title: "Uninformed Search Algorithms"
+#       style: "docked"
+#       background: light
+#       contents:
+#         - text: "Uninformed Search Overview"
+#           href: uninformed.qmd
+#         - text: "Breadth-First Search (BFS)"
+#           href: bfs.qmd
+#         - text: "Depth-First Search (DFS)"
+#           href: dfs.qmd
+
 website:
-  navbar:
-    background: primary
+  sidebar:
+    style: "docked"
     search: true
-    left:
+    contents:
       - text: "Index"
         href: index.qmd
       - text: "Introduction"
         href: introduction.qmd
-      - text: "Uninformed Algos"
-        href: uninformed.qmd
-        menu:
-          - text: "BFS"
+      - section: "Uninformed Search Algorithms"
+        contents:
+          - text: "Uninformed Search Overview"
+            href: uninformed.qmd
+          - text: "Breadth-First Search (BFS)"
             href: bfs.qmd
-          - text: "DFS"
+          - text: "Depth-First Search (DFS)"
             href: dfs.qmd
