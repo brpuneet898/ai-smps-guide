@@ -12,9 +12,8 @@ website:
         href: introduction.qmd
       - text: "Uninformed Algos"
         href: uninformed.qmd
-        menu: 
+        menu:
           - text: "BFS"
             href: bfs.qmd
           - text: "DFS"
             href: dfs.qmd
-
