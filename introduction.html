@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Complete Guide to AI-SMPS</title>
+<title>Introduction – Complete Guide to AI-SMPS</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -88,11 +88,11 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="./index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./introduction.html"> 
+    <a class="nav-link active" href="./introduction.html" aria-current="page"> 
 <span class="menu-text">Introduction</span></a>
   </li>  
   <li class="nav-item">
@@ -116,7 +116,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Complete Guide to AI-SMPS</h1>
+<h1 class="title">Introduction</h1>
 </div>
 
 
@@ -133,19 +133,139 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="table-of-contents" class="level1">
-<h1>Table of Contents</h1>
+<p>The goal of science and technology has always been to understand our surroundings which consequently made our pursuit of knowledge easier. With the advent of Artificial Intelligence (henceforth referred to as AI), computational systems have been exhibiting increased learning capabilities. Over the years, “Learned” computational systems have beaten Professional Go players [1]. Few years back, Google’s DeepMind AlphaGo AI took on top human players at chess and poker [1]. Drawing inspiration from human cognition, the field of AI aims to replicate human capacity for reasoning, learning, problem solving, and perception. This would let the computational systems tackle complex problems.</p>
+<p>Given that the aim of AI is to enable intelligent decision making, many search algorithms, with applications in route-optimisation, problem solving etc are often used in the field of AI. Google Maps (henceforth referred to as GMaps) is one of the most innovative and widely used services in the world today. It has been helping people to find the shortest and most convenient routes to their desired destinations. GMaps incorporate Graph data structures in order to compute the shortest path between two points. [2] For this purpose, Dijikstra’s Algorithm is used to navigate the shortest path to reach a destination. Apart from this, A*(A-star) algorithm is currently being used by GMaps for its wide range of dealings with larger graphs.</p>
+<p>In the Minesweeper game, search algorithms play an important role in finding the safe squares and avoiding mines. It is a logic-based game where the players are required to clear the grid without falling into the hidden mines. Once a mine is triggered, the game ends. Once you click on any unexplored region, the square reveals a number, which indicates the number of mines adjacent to this particular square. Search algorithms like DFS, BFS, and more advanced ones can help to identify and enhance the game’s decision-making process. For example, DFS is useful for exploring deeper into the grid. We can exploit this fact to uncover a sequence of safe squares. It might start by visiting neighbouring squares until a dead end or a clue is met, thus, backtracking to the safe position to find new paths. It is quite possible to emulate these search algorithms to help in rational decision making while increasing the chances of success at the Minesweeper game.</p>
+<p>Alcuin’s River Crossing Problem is a 1000 years old puzzle [3] that involves a wolf, a goat, and a few cabbages. The objective is to ferry all three from one bank of the river to the other, on a boat, which only has enough room for one of the three at a time. Also, if left alone:</p>
 <ul>
-<li><a href="./introduction.html">Introduction</a></li>
-<li><a href="./uninformed.html">Uninformed Search</a>
-<ul>
-<li><a href="./bfs.html">Breadth-First Search (BFS)</a></li>
-<li><a href="./dfs.html">Depth-First Search (DFS)</a></li>
-</ul></li>
+<li>
+The Wolf would devour the Goat
+</li>
+<li>
+The Goat shall eat the Cabbage
+</li>
 </ul>
+<p>Thus, one has to come up with a set of steps to ensure that the aforementioned does not happen and all the three passengers reach the other side of the river safely.</p>
+<p>Each such problem have certain frequently occurring elements associated with them:</p>
+<ul>
+<li>
+<strong>State:</strong> A State is a configuration or a position which represents a specific condition or situation of the problem or its solution.
+</li>
+<li>
+<strong>Start State:</strong> A state from where the problem solving/search begins.
+</li>
+<li>
+<strong>State Space:</strong> It is the set of all possible states where one can be during solving the problem.
+</li>
+<li>
+<strong>Goal State:</strong> The state which will be achieved if the problem is solved correctly.
+</li>
+</ul>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<svg width="672" height="480" viewbox="0.00 0.00 250.34 247.65" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 243.65)">
+<title>G</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-243.65 246.34,-243.65 246.34,4 -4,4"></polygon>
+<text text-anchor="middle" x="121.17" y="-8.2" font-family="Times,serif" font-size="14.00">State transitions leading to the goal</text>
+<!-- START STATE -->
+<g id="node1" class="node">
+<title>START STATE</title>
+<ellipse fill="none" stroke="black" cx="74.08" cy="-116.25" rx="74.15" ry="18"></ellipse>
+<text text-anchor="middle" x="74.08" y="-112.05" font-family="Times,serif" font-size="14.00">START STATE</text>
+</g>
+<!-- State 1 -->
+<g id="node2" class="node">
+<title>State 1</title>
+<ellipse fill="none" stroke="black" cx="66.14" cy="-42.8" rx="37.68" ry="18"></ellipse>
+<text text-anchor="middle" x="66.14" y="-38.6" font-family="Times,serif" font-size="14.00">State 1</text>
+</g>
+<!-- START STATE&#45;&#45;State 1 -->
+<g id="edge1" class="edge">
+<title>START STATE--State 1</title>
+<path fill="none" stroke="black" d="M72.11,-98.09C70.89,-86.79 69.33,-72.31 68.11,-61"></path>
+</g>
+<!-- State 2 -->
+<g id="node3" class="node">
+<title>State 2</title>
+<ellipse fill="none" stroke="black" cx="111.61" cy="-179.2" rx="37.68" ry="18"></ellipse>
+<text text-anchor="middle" x="111.61" y="-175" font-family="Times,serif" font-size="14.00">State 2</text>
+</g>
+<!-- START STATE&#45;&#45;State 2 -->
+<g id="edge2" class="edge">
+<title>START STATE--State 2</title>
+<path fill="none" stroke="black" d="M84.73,-134.12C89.85,-142.7 95.96,-152.95 101.06,-161.5"></path>
+</g>
+<!-- State 3 -->
+<g id="node4" class="node">
+<title>State 3</title>
+<ellipse fill="none" stroke="black" cx="38.77" cy="-179.97" rx="37.68" ry="18"></ellipse>
+<text text-anchor="middle" x="38.77" y="-175.77" font-family="Times,serif" font-size="14.00">State 3</text>
+</g>
+<!-- START STATE&#45;&#45;State 3 -->
+<g id="edge3" class="edge">
+<title>START STATE--State 3</title>
+<path fill="none" stroke="black" d="M64.05,-134.34C59.16,-143.17 53.3,-153.75 48.45,-162.49"></path>
+</g>
+<!-- State 2&#45;&#45;State 3 -->
+<g id="edge4" class="edge">
+<title>State 2--State 3</title>
+<path fill="none" stroke="black" d="M73.91,-179.6C73.77,-179.6 73.63,-179.6 73.49,-179.6"></path>
+</g>
+<!-- GOAL STATE -->
+<g id="node5" class="node">
+<title>GOAL STATE</title>
+<ellipse fill="none" stroke="black" cx="172.03" cy="-221.65" rx="70.13" ry="18"></ellipse>
+<text text-anchor="middle" x="172.03" y="-217.45" font-family="Times,serif" font-size="14.00">GOAL STATE</text>
+</g>
+<!-- State 2&#45;&#45;GOAL STATE -->
+<g id="edge5" class="edge">
+<title>State 2--GOAL STATE</title>
+<path fill="none" stroke="black" d="M133.08,-194.29C137.83,-197.62 142.9,-201.18 147.75,-204.59"></path>
+</g>
+</g>
+</svg>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>Now, any State can be represented as a node of a graph with each node being a member of the State Space. Having said that, to find the Goal State, one has to traverse through the graph. This graph is termed as State Space Graph. Thus, the State Space is a graph structure. With this as the context, we define a few more elements associated with State Space Search:</p>
+<ul>
+<li>
+<strong>Move Generator Function (MoveGen):</strong> MoveGen captures the moves that can be made in the given state. These moves help us to move from one node (or State) to another in the State Space Graph. Each move adds to the number of edges in the graph.
+</li>
+<li>
+<strong>Goal Sate Function:</strong> The Goal State Function checks whether the current state is the Goal State.
+</li>
+<li>
+<strong>Cost:</strong> Cost is the expense of moving from one state to another, usually expressed in numerical values linked to each edge.
+</li>
+</ul>
+<p>A Search Algorithm navigates through the State Space using MoveGen and Goal State Functions. If we take Alcuin’s problem, then:</p>
+<ul>
+<li>
+The Wolf, the Goat, and the Cabbage at the initial bank would give us the Start State.
+</li>
+<li>
+Them being on the other side of the river would give the Goal State.
+</li>
+<li>
+Each boat ride will be a MoveGen Function.
+</li>
+</ul>
+<p>Thus, I cannot stress enough the importance of search algorithms’ applications in various domains, from optimising routes in Google Maps to solving puzzles like river crossing. Thus, it highlights the power and relevance of these computational methods. These algorithms help in enhanced decision making, optimising the solutions, achieving desired results in an efficient manner. Understanding these algorithms in depth and utilising them in practical applications will enhance the problem solving capabilities. Also, it will drive the future innovation drive in varied fields.</p>
+<hr>
+<ol type="1">
+<li>McConnachie, J. (2022). Man vs machine: How Artificial Intelligence beats us in board games. TLS. Times Literary Supplement, (6202), 23-24.</li>
+<li>Mehta, H., Kanani, P., &amp; Lande, P. (2019). Google maps. International Journal of Computer Applications, 178(8), 41-46.</li>
+<li>Lampis, M., &amp; Mitsou, V. (2007). Generalizing Alcuin’s River Crossing Problem. In 11th Panhellenic Conference in Informatics (pp.&nbsp;617-626).</li>
+</ol>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
