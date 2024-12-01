@@ -6,6 +6,16 @@ format:
 jupyter: python3
 ---
 
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-43XXVJQ0JD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-43XXVJQ0JD');
+</script>
+
 The goal of science and technology has always been to understand our surroundings which consequently made our pursuit of knowledge easier. With the advent of Artificial Intelligence (henceforth referred to as AI), computational systems have been exhibiting increased learning capabilities. Over the years, “Learned” computational systems have beaten Professional Go players. Few years back, Google’s DeepMind AlphaGo AI took on top human players at chess and poker [^1]. Drawing inspiration from human cognition, the field of AI aims to replicate human capacity for reasoning, learning, problem solving, and perception. This would let the computational systems tackle complex problems.
 
 Given that the aim of AI is to enable intelligent decision making, many search algorithms, with applications in route-optimisation, problem solving etc are often used in the field of AI. Google Maps (henceforth referred to as GMaps) is one of the most innovative and widely used services in the world today. It has been helping people to find the shortest and most convenient routes to their desired destinations. GMaps incorporate Graph data structures in order to compute the shortest path between two points. [^2] For this purpose, Dijikstra’s Algorithm is used to navigate the shortest path to reach a destination. Apart from this, A*(A-star) algorithm is currently being used by GMaps for its wide range of dealings with larger graphs.

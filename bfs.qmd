@@ -6,6 +6,16 @@ format:
 jupyter: python3
 ---
 
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-43XXVJQ0JD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-43XXVJQ0JD');
+</script>
+
 Breadth First Search (BFS) is an approach that is used to travel through a graph systematically. BFS explores all the neighbours of a Node (State) prior to moving to the next state. It ensures that all nodes at the same depth are visited before moving to the next deeper layer. BFS often is preferred to find shortest paths in an unweighted graph. 
 
 Let there be a graph G which has a set of V vertices and a set of E edges. Thus, we can write:
