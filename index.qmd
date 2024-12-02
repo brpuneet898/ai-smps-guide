@@ -22,3 +22,6 @@ output:
 - [Uninformed Search](uninformed.qmd)
   - [Breadth-First Search (BFS)](bfs.qmd)
   - [Depth-First Search (DFS)](dfs.qmd)
+  - [Depth Limited Search (DLS)](dls.qmd)
+  - [Iterative Deepening Depth First Search (IDDFS)](iddfs.qmd)
+  - [Uniform Cost Search (UCS)](ucs.qmd)

@@ -16,3 +16,163 @@ jupyter: python3
   gtag('config', 'G-43XXVJQ0JD');
 </script>
 
+Depth First Search (DFS), also called backtracking, can help one solve many problems in AI and Combinatorial Theory. Beginning at the Start State (Root Node), the algorithm traverses till the deepest end of each branch. When the deepest state (Node) is visited, it backtracks to its parent node and to traverse to the next deepest node. If there are no siblings, it backtracks and traverses to the deepest end of the neighboring branch. [**Note:-** A Node in a graph is also called a Vertex. In this paper, these terms would be used interchangeably. Remember, in the State Space Graph, each Node/Vertex represents a state.]
+
+```{dot}
+graph dfs_graph {
+  1 [label="1" shape=circle];
+  2 [label="2" shape=circle];
+  3 [label="3" shape=circle];
+  4 [label="4" shape=circle];
+  5 [label="5" shape=circle];
+  6 [label="6" shape=circle];
+  7 [label="7" shape=circle];
+  8 [label="8" shape=circle];
+  9 [label="9" shape=circle];
+  10 [label="10" shape=circle];
+  11 [label="11" shape=circle];
+  1 -- 2;
+  1 -- 7;
+  1 -- 8;
+  2 -- 3;
+  8 -- 9;
+  8 -- 10;
+  3 -- 4;
+  3 -- 6;
+  10 -- 11;
+  4 -- 5;
+  rankdir="TB"; 
+  labelloc="b";
+  label="DFS Traversal from Node 1";
+}
+```
+
+Let there be a graph G which has a set of V vertices and a set of E edges. Thus, we can write : 
+
+$$ G = (V,E) $$
+
+Initially, all the vertices of G are unexplored. One can start with a vertex of G and choose an edge to follow [^1]. This traversal would lead to a new node. We continue this procedure of visiting an unexplored vertex stemming out from the present one. Once we have exhausted all such vertices, we backtrack and find an edge from where an unreached vertex is available, only to repeat the process until we have traversed through all edges exactly once. 
+
+For each vertex, $$ v \in V, $$ We can have a bunch of, $$ w \in V, $$ such that, $$ \exists edge\ $$ Between v and w - $$ (v, w) \in E. $$ We can construct a list of all such pairs of vertices, which is known as the Adjacency List. A set of such adjacency lists is called an Adjacency Structure for G.
+
+### Pseudocode for DFS Algorithm
+
+```plaintext
+1. function DFS(graph, start, target, path=[], visited=set()):
+2.     add start to path
+3.     add start to visited
+4.     if start == target, return path
+5.     for each neighbour in graph[start]:
+6.         if neighbour not in visited:
+7.             result = DFS(graph, neighbour, target, path, visited)
+8.             if result is not empty, return result
+9.     return None
+10. end function
+```
+
+When it comes to implementation, DFS is implemented using Stacks:
+
+<ul>
+  <li>**Step 1:** Take a stack with size equal to the total number of vertices in the graph.</li>
+  <li>**Step 2:** Take any vertex as the starting point for traversal. Push that vertex to the stack once visited.</li>
+  <li>**Step 3:** Go to any of the non-visited adjacent vertices of the current vertex, which is on the top of the stack, and push the new vertex on the top of the stack.</li>
+  <li>**Step 4:** Keep repeating Step 3 till there are no vertices which can be visited from the top one.</li>
+  <li>**Step 5:** Once Step 4 is met with, backtrack and pop one vertex from the stack.</li>
+  <li>**Step 6:** Repeat Steps 3,4, and 5 until the stack is empty.</li>
+</ul>
+
+Let us look at an example where DFS can help traverse a State Space Graph.
+
+```{dot}
+digraph dfs_graph2 {
+  A [label="A" shape=circle];
+  B [label="B" shape=circle];
+  C [label="C" shape=circle];
+  D [label="D" shape=circle];
+  E [label="E" shape=circle];
+  F [label="F" shape=circle];
+  A -> B;
+  B -> C;
+  B -> D;
+  C -> E;
+  D -> E;
+  E -> F;
+  rankdir="TB"; 
+  labelloc="b";
+  label="DFS Example in State Space Graph";
+}
+```
+
+Consider A to be the Start State and F to be the Goal State. A stack would be maintained to keep track of nodes.
+
+<ul>
+  <li>**Step 1:** Take a stack and initialise it with the Start State/Starting Node A.</li>
+  <li>**Step 2:** Visit A. Push its first child node, B, onto the stack.</li>
+  <li>**Step 3:** Move to B. Put its first child node, C, onto the stack.</li>
+  <li>**Step 4:** Move to C. Put its first child node, E, onto the stack.</li>
+  <li>**Step 5:** Visit E. Push its child node, F, onto the stack.</li>
+  <li>**Step 6:** Move to F. Since F is the goal state, stop traversal.</li>
+</ul>
+
+The path of traversal for DFS, in this case would be A→B→C→E→F. DFS explores one path entirely before backtracking. By systematically visiting child nodes, it ensures no path is left unexplored. Upon finding the goal state, DFS terminates, making it efficient for single solution scenarios. 
+
+### DFS Algorithm Implementation
+
+The following Python code defines a recursive Depth-First Search (DFS) function to find a path from a starting node to a target node in a graph. The function takes the graph, start node, and target node as inputs, and uses a `path` list to track the current path and a `visited` set to avoid revisiting nodes. It explores each neighbor of the current node recursively until the target is found or all paths are explored.
+
+```{python}
+# Function to perform DFS to find a path from start to target
+def dfs(graph, start, target, path=None, visited=None):
+    # Initialize the path and visited set if they are not provided
+    if path is None:
+        path = []
+    if visited is None:
+        visited = set()
+
+    # Add the current node to the path and visited set
+    path.append(start)
+    visited.add(start)
+
+    # If we found the target, return the path
+    if start == target:
+        return path
+    
+    # Explore the neighbors of the current node
+    for neighbor in graph[start]:
+        # If the neighbor has not been visited yet, recurse deeper
+        if neighbor not in visited:
+            result = dfs(graph, neighbor, target, path, visited)
+            # If a valid path is found, return it
+            if result:
+                return result
+    
+    # If no path is found, return None
+    return None
+```
+
+This Python code demonstrates the use of the previously defined DFS function to search for a path in a specific graph. The graph is represented as an adjacency list, with nodes and their respective neighbors. The DFS function is called with start and target nodes, and the resulting path is printed if one is found. If no path exists, the code outputs a message indicating that no path was found between the two nodes.
+
+```{python}
+# Example graph represented as an adjacency list
+graph = {
+    0: [1, 2],
+    1: [0, 3],
+    2: [0, 3],
+    3: [1, 2]
+}
+
+# Starting and target nodes
+start_node = 0
+target_node = 3
+
+# Call the DFS function to find the path
+path = dfs(graph, start_node, target_node)
+
+# Print the result
+if path:
+    print(f"Path found from {start_node} to {target_node}: {path}")
+else:
+    print(f"No path found from {start_node} to {target_node}")
+```
+
+[^1]: Tarjan, R. (1972). Depth-first search and linear graph algorithms. SIAM journal on computing, 1(2), 146-160. [Link](https://epubs.siam.org/doi/10.1137/0201010)

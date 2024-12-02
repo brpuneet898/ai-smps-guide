@@ -42,4 +42,9 @@ website:
             href: bfs.qmd
           - text: "Depth-First Search (DFS)"
             href: dfs.qmd
-  
+          - text: "Depth Limited Search (DLS)"
+            href: dls.qmd
+          - text: "Iterative Deepening DFS (IDDFS)"
+            href: iddfs.qmd
+          - text: "Uniform Cost Search (UCS)"
+            href: ucs.qmd
