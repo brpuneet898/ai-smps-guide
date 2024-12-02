@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -67,6 +101,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -138,6 +201,24 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">Depth-First Search (DFS)</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./dls.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Depth Limited Search (DLS)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./iddfs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Iterative Deepening DFS (IDDFS)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ucs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Uniform Cost Search (UCS)</span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -177,10 +258,365 @@ ul.task-list li input[type="checkbox"] {
 
   gtag('config', 'G-43XXVJQ0JD');
 </script>
+<p>Depth First Search (DFS), also called backtracking, can help one solve many problems in AI and Combinatorial Theory. Beginning at the Start State (Root Node), the algorithm traverses till the deepest end of each branch. When the deepest state (Node) is visited, it backtracks to its parent node and to traverse to the next deepest node. If there are no siblings, it backtracks and traverses to the deepest end of the neighboring branch. [<strong>Note:-</strong> A Node in a graph is also called a Vertex. In this paper, these terms would be used interchangeably. Remember, in the State Space Graph, each Node/Vertex represents a state.]</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<svg width="672" height="480" viewbox="0.00 0.00 184.69 367.57" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 363.57)">
+<title>dfs_graph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-363.57 180.69,-363.57 180.69,4 -4,4"></polygon>
+<text text-anchor="middle" x="88.35" y="-8.2" font-family="Times,serif" font-size="14.00">DFS Traversal from Node 1</text>
+<!-- 1 -->
+<g id="node1" class="node">
+<title>1</title>
+<ellipse fill="none" stroke="black" cx="99" cy="-341.57" rx="18" ry="18"></ellipse>
+<text text-anchor="middle" x="99" y="-337.37" font-family="Times,serif" font-size="14.00">1</text>
+</g>
+<!-- 2 -->
+<g id="node2" class="node">
+<title>2</title>
+<ellipse fill="none" stroke="black" cx="45" cy="-269.57" rx="18" ry="18"></ellipse>
+<text text-anchor="middle" x="45" y="-265.37" font-family="Times,serif" font-size="14.00">2</text>
+</g>
+<!-- 1&#45;&#45;2 -->
+<g id="edge1" class="edge">
+<title>1--2</title>
+<path fill="none" stroke="black" d="M88.33,-326.74C78.86,-314.47 65.11,-296.64 55.65,-284.37"></path>
+</g>
+<!-- 7 -->
+<g id="node7" class="node">
+<title>7</title>
+<ellipse fill="none" stroke="black" cx="99" cy="-269.57" rx="18" ry="18"></ellipse>
+<text text-anchor="middle" x="99" y="-265.37" font-family="Times,serif" font-size="14.00">7</text>
+</g>
+<!-- 1&#45;&#45;7 -->
+<g id="edge2" class="edge">
+<title>1--7</title>
+<path fill="none" stroke="black" d="M99,-323.27C99,-312.42 99,-298.49 99,-287.68"></path>
+</g>
+<!-- 8 -->
+<g id="node8" class="node">
+<title>8</title>
+<ellipse fill="none" stroke="black" cx="153" cy="-269.57" rx="18" ry="18"></ellipse>
+<text text-anchor="middle" x="153" y="-265.37" font-family="Times,serif" font-size="14.00">8</text>
+</g>
+<!-- 1&#45;&#45;8 -->
+<g id="edge3" class="edge">
+<title>1--8</title>
+<path fill="none" stroke="black" d="M109.67,-326.74C119.14,-314.47 132.89,-296.64 142.35,-284.37"></path>
+</g>
+<!-- 3 -->
+<g id="node3" class="node">
+<title>3</title>
+<ellipse fill="none" stroke="black" cx="45" cy="-194.88" rx="18" ry="18"></ellipse>
+<text text-anchor="middle" x="45" y="-190.68" font-family="Times,serif" font-size="14.00">3</text>
+</g>
+<!-- 2&#45;&#45;3 -->
+<g id="edge4" class="edge">
+<title>2--3</title>
+<path fill="none" stroke="black" d="M45,-251.35C45,-239.76 45,-224.55 45,-212.98"></path>
+</g>
+<!-- 4 -->
+<g id="node4" class="node">
+<title>4</title>
+<ellipse fill="none" stroke="black" cx="18" cy="-117.49" rx="18" ry="18"></ellipse>
+<text text-anchor="middle" x="18" y="-113.29" font-family="Times,serif" font-size="14.00">4</text>
+</g>
+<!-- 3&#45;&#45;4 -->
+<g id="edge7" class="edge">
+<title>3--4</title>
+<path fill="none" stroke="black" d="M39.14,-177.52C34.58,-164.79 28.29,-147.22 23.75,-134.56"></path>
+</g>
+<!-- 6 -->
+<g id="node6" class="node">
+<title>6</title>
+<ellipse fill="none" stroke="black" cx="72" cy="-117.49" rx="18" ry="18"></ellipse>
+<text text-anchor="middle" x="72" y="-113.29" font-family="Times,serif" font-size="14.00">6</text>
+</g>
+<!-- 3&#45;&#45;6 -->
+<g id="edge8" class="edge">
+<title>3--6</title>
+<path fill="none" stroke="black" d="M50.86,-177.52C55.42,-164.79 61.71,-147.22 66.25,-134.56"></path>
+</g>
+<!-- 5 -->
+<g id="node5" class="node">
+<title>5</title>
+<ellipse fill="none" stroke="black" cx="18" cy="-42.8" rx="18" ry="18"></ellipse>
+<text text-anchor="middle" x="18" y="-38.6" font-family="Times,serif" font-size="14.00">5</text>
+</g>
+<!-- 4&#45;&#45;5 -->
+<g id="edge10" class="edge">
+<title>4--5</title>
+<path fill="none" stroke="black" d="M18,-99.27C18,-87.68 18,-72.47 18,-60.9"></path>
+</g>
+<!-- 9 -->
+<g id="node9" class="node">
+<title>9</title>
+<ellipse fill="none" stroke="black" cx="99" cy="-194.88" rx="18" ry="18"></ellipse>
+<text text-anchor="middle" x="99" y="-190.68" font-family="Times,serif" font-size="14.00">9</text>
+</g>
+<!-- 8&#45;&#45;9 -->
+<g id="edge5" class="edge">
+<title>8--9</title>
+<path fill="none" stroke="black" d="M142.59,-254.56C133.03,-241.69 118.93,-222.71 109.38,-209.85"></path>
+</g>
+<!-- 10 -->
+<g id="node10" class="node">
+<title>10</title>
+<ellipse fill="none" stroke="black" cx="156" cy="-194.88" rx="20.89" ry="20.89"></ellipse>
+<text text-anchor="middle" x="156" y="-190.68" font-family="Times,serif" font-size="14.00">10</text>
+</g>
+<!-- 8&#45;&#45;10 -->
+<g id="edge6" class="edge">
+<title>8--10</title>
+<path fill="none" stroke="black" d="M153.71,-251.35C154.15,-240.68 154.72,-226.95 155.18,-215.81"></path>
+</g>
+<!-- 11 -->
+<g id="node11" class="node">
+<title>11</title>
+<ellipse fill="none" stroke="black" cx="156" cy="-117.49" rx="20.89" ry="20.89"></ellipse>
+<text text-anchor="middle" x="156" y="-113.29" font-family="Times,serif" font-size="14.00">11</text>
+</g>
+<!-- 10&#45;&#45;11 -->
+<g id="edge9" class="edge">
+<title>10--11</title>
+<path fill="none" stroke="black" d="M156,-174.07C156,-163.08 156,-149.44 156,-138.43"></path>
+</g>
+</g>
+</svg>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>Let there be a graph G which has a set of V vertices and a set of E edges. Thus, we can write :</p>
+<p><span class="math display">\[ G = (V,E) \]</span></p>
+<p>Initially, all the vertices of G are unexplored. One can start with a vertex of G and choose an edge to follow <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. This traversal would lead to a new node. We continue this procedure of visiting an unexplored vertex stemming out from the present one. Once we have exhausted all such vertices, we backtrack and find an edge from where an unreached vertex is available, only to repeat the process until we have traversed through all edges exactly once.</p>
+<p>For each vertex, <span class="math display">\[ v \in V, \]</span> We can have a bunch of, <span class="math display">\[ w \in V, \]</span> such that, <span class="math display">\[ \exists edge\ \]</span> Between v and w - <span class="math display">\[ (v, w) \in E. \]</span> We can construct a list of all such pairs of vertices, which is known as the Adjacency List. A set of such adjacency lists is called an Adjacency Structure for G.</p>
+<section id="pseudocode-for-dfs-algorithm" class="level3">
+<h3 class="anchored" data-anchor-id="pseudocode-for-dfs-algorithm">Pseudocode for DFS Algorithm</h3>
+<pre class="plaintext"><code>1. function DFS(graph, start, target, path=[], visited=set()):
+2.     add start to path
+3.     add start to visited
+4.     if start == target, return path
+5.     for each neighbour in graph[start]:
+6.         if neighbour not in visited:
+7.             result = DFS(graph, neighbour, target, path, visited)
+8.             if result is not empty, return result
+9.     return None
+10. end function</code></pre>
+<p>When it comes to implementation, DFS is implemented using Stacks:</p>
+<ul>
+<li>
+<strong>Step 1:</strong> Take a stack with size equal to the total number of vertices in the graph.
+</li>
+<li>
+<strong>Step 2:</strong> Take any vertex as the starting point for traversal. Push that vertex to the stack once visited.
+</li>
+<li>
+<strong>Step 3:</strong> Go to any of the non-visited adjacent vertices of the current vertex, which is on the top of the stack, and push the new vertex on the top of the stack.
+</li>
+<li>
+<strong>Step 4:</strong> Keep repeating Step 3 till there are no vertices which can be visited from the top one.
+</li>
+<li>
+<strong>Step 5:</strong> Once Step 4 is met with, backtrack and pop one vertex from the stack.
+</li>
+<li>
+<strong>Step 6:</strong> Repeat Steps 3,4, and 5 until the stack is empty.
+</li>
+</ul>
+<p>Let us look at an example where DFS can help traverse a State Space Graph.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<svg width="672" height="480" viewbox="0.00 0.00 224.24 356.84" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 352.84)">
+<title>dfs_graph2</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-352.84 220.24,-352.84 220.24,4 -4,4"></polygon>
+<text text-anchor="middle" x="108.12" y="-8.2" font-family="Times,serif" font-size="14.00">DFS Example in State Space Graph</text>
+<!-- A -->
+<g id="node1" class="node">
+<title>A</title>
+<ellipse fill="none" stroke="black" cx="108.11" cy="-330.83" rx="18.02" ry="18.02"></ellipse>
+<text text-anchor="middle" x="108.11" y="-326.63" font-family="Times,serif" font-size="14.00">A</text>
+</g>
+<!-- B -->
+<g id="node2" class="node">
+<title>B</title>
+<ellipse fill="none" stroke="black" cx="108.11" cy="-258.82" rx="18" ry="18"></ellipse>
+<text text-anchor="middle" x="108.11" y="-254.62" font-family="Times,serif" font-size="14.00">B</text>
+</g>
+<!-- A&#45;&gt;B -->
+<g id="edge1" class="edge">
+<title>A-&gt;B</title>
+<path fill="none" stroke="black" d="M108.11,-312.53C108.11,-304.81 108.11,-295.54 108.11,-286.94"></path>
+<polygon fill="black" stroke="black" points="111.61,-286.93 108.11,-276.93 104.61,-286.93 111.61,-286.93"></polygon>
+</g>
+<!-- C -->
+<g id="node3" class="node">
+<title>C</title>
+<ellipse fill="none" stroke="black" cx="81.11" cy="-186.81" rx="18" ry="18"></ellipse>
+<text text-anchor="middle" x="81.11" y="-182.61" font-family="Times,serif" font-size="14.00">C</text>
+</g>
+<!-- B&#45;&gt;C -->
+<g id="edge2" class="edge">
+<title>B-&gt;C</title>
+<path fill="none" stroke="black" d="M101.85,-241.58C98.61,-233.19 94.59,-222.75 90.95,-213.31"></path>
+<polygon fill="black" stroke="black" points="94.21,-212.03 87.34,-203.96 87.67,-214.55 94.21,-212.03"></polygon>
+</g>
+<!-- D -->
+<g id="node4" class="node">
+<title>D</title>
+<ellipse fill="none" stroke="black" cx="135.11" cy="-186.81" rx="18.02" ry="18.02"></ellipse>
+<text text-anchor="middle" x="135.11" y="-182.61" font-family="Times,serif" font-size="14.00">D</text>
+</g>
+<!-- B&#45;&gt;D -->
+<g id="edge3" class="edge">
+<title>B-&gt;D</title>
+<path fill="none" stroke="black" d="M114.38,-241.58C117.61,-233.19 121.64,-222.75 125.28,-213.31"></path>
+<polygon fill="black" stroke="black" points="128.55,-214.55 128.89,-203.96 122.02,-212.03 128.55,-214.55"></polygon>
+</g>
+<!-- E -->
+<g id="node5" class="node">
+<title>E</title>
+<ellipse fill="none" stroke="black" cx="108.11" cy="-114.8" rx="18" ry="18"></ellipse>
+<text text-anchor="middle" x="108.11" y="-110.6" font-family="Times,serif" font-size="14.00">E</text>
+</g>
+<!-- C&#45;&gt;E -->
+<g id="edge4" class="edge">
+<title>C-&gt;E</title>
+<path fill="none" stroke="black" d="M87.38,-169.57C90.61,-161.18 94.64,-150.74 98.28,-141.3"></path>
+<polygon fill="black" stroke="black" points="101.55,-142.54 101.89,-131.95 95.02,-140.02 101.55,-142.54"></polygon>
+</g>
+<!-- D&#45;&gt;E -->
+<g id="edge5" class="edge">
+<title>D-&gt;E</title>
+<path fill="none" stroke="black" d="M128.85,-169.57C125.61,-161.18 121.59,-150.74 117.95,-141.3"></path>
+<polygon fill="black" stroke="black" points="121.21,-140.02 114.34,-131.95 114.67,-142.54 121.21,-140.02"></polygon>
+</g>
+<!-- F -->
+<g id="node6" class="node">
+<title>F</title>
+<ellipse fill="none" stroke="black" cx="108.11" cy="-42.8" rx="18" ry="18"></ellipse>
+<text text-anchor="middle" x="108.11" y="-38.6" font-family="Times,serif" font-size="14.00">F</text>
+</g>
+<!-- E&#45;&gt;F -->
+<g id="edge6" class="edge">
+<title>E-&gt;F</title>
+<path fill="none" stroke="black" d="M108.11,-96.5C108.11,-88.78 108.11,-79.51 108.11,-70.91"></path>
+<polygon fill="black" stroke="black" points="111.61,-70.9 108.11,-60.9 104.61,-70.9 111.61,-70.9"></polygon>
+</g>
+</g>
+</svg>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>Consider A to be the Start State and F to be the Goal State. A stack would be maintained to keep track of nodes.</p>
+<ul>
+<li>
+<strong>Step 1:</strong> Take a stack and initialise it with the Start State/Starting Node A.
+</li>
+<li>
+<strong>Step 2:</strong> Visit A. Push its first child node, B, onto the stack.
+</li>
+<li>
+<strong>Step 3:</strong> Move to B. Put its first child node, C, onto the stack.
+</li>
+<li>
+<strong>Step 4:</strong> Move to C. Put its first child node, E, onto the stack.
+</li>
+<li>
+<strong>Step 5:</strong> Visit E. Push its child node, F, onto the stack.
+</li>
+<li>
+<strong>Step 6:</strong> Move to F. Since F is the goal state, stop traversal.
+</li>
+</ul>
+<p>The path of traversal for DFS, in this case would be A→B→C→E→F. DFS explores one path entirely before backtracking. By systematically visiting child nodes, it ensures no path is left unexplored. Upon finding the goal state, DFS terminates, making it efficient for single solution scenarios.</p>
+</section>
+<section id="dfs-algorithm-implementation" class="level3">
+<h3 class="anchored" data-anchor-id="dfs-algorithm-implementation">DFS Algorithm Implementation</h3>
+<p>The following Python code defines a recursive Depth-First Search (DFS) function to find a path from a starting node to a target node in a graph. The function takes the graph, start node, and target node as inputs, and uses a <code>path</code> list to track the current path and a <code>visited</code> set to avoid revisiting nodes. It explores each neighbor of the current node recursively until the target is found or all paths are explored.</p>
+<div id="f33cca8a" class="cell" data-execution_count="1">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to perform DFS to find a path from start to target</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> dfs(graph, start, target, path<span class="op">=</span><span class="va">None</span>, visited<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Initialize the path and visited set if they are not provided</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> path <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        path <span class="op">=</span> []</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> visited <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        visited <span class="op">=</span> <span class="bu">set</span>()</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add the current node to the path and visited set</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    path.append(start)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    visited.add(start)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># If we found the target, return the path</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> start <span class="op">==</span> target:</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> path</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Explore the neighbors of the current node</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> neighbor <span class="kw">in</span> graph[start]:</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>        <span class="co"># If the neighbor has not been visited yet, recurse deeper</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> neighbor <span class="kw">not</span> <span class="kw">in</span> visited:</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>            result <span class="op">=</span> dfs(graph, neighbor, target, path, visited)</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>            <span class="co"># If a valid path is found, return it</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> result:</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>                <span class="cf">return</span> result</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    <span class="co"># If no path is found, return None</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">None</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>This Python code demonstrates the use of the previously defined DFS function to search for a path in a specific graph. The graph is represented as an adjacency list, with nodes and their respective neighbors. The DFS function is called with start and target nodes, and the resulting path is printed if one is found. If no path exists, the code outputs a message indicating that no path was found between the two nodes.</p>
+<div id="76c10ff9" class="cell" data-execution_count="2">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example graph represented as an adjacency list</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>graph <span class="op">=</span> {</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="dv">0</span>: [<span class="dv">1</span>, <span class="dv">2</span>],</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="dv">1</span>: [<span class="dv">0</span>, <span class="dv">3</span>],</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="dv">2</span>: [<span class="dv">0</span>, <span class="dv">3</span>],</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="dv">3</span>: [<span class="dv">1</span>, <span class="dv">2</span>]</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Starting and target nodes</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>start_node <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>target_node <span class="op">=</span> <span class="dv">3</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Call the DFS function to find the path</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> dfs(graph, start_node, target_node)</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the result</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> path:</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Path found from </span><span class="sc">{</span>start_node<span class="sc">}</span><span class="ss"> to </span><span class="sc">{</span>target_node<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>path<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"No path found from </span><span class="sc">{</span>start_node<span class="sc">}</span><span class="ss"> to </span><span class="sc">{</span>target_node<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Path found from 0 to 3: [0, 1, 3]</code></pre>
+</div>
+</div>
 
 
+</section>
 
-</main> <!-- /main -->
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>Tarjan, R. (1972). Depth-first search and linear graph algorithms. SIAM journal on computing, 1(2), 146-160. <a href="https://epubs.siam.org/doi/10.1137/0201010">Link</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
