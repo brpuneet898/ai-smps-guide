@@ -408,14 +408,14 @@ Goal State D is reached and the traversal is to be terminated
 <section id="iddfs-algorithm-implementation" class="level3">
 <h3 class="anchored" data-anchor-id="iddfs-algorithm-implementation">IDDFS Algorithm Implementation</h3>
 <p>The first code cell imports the <code>heapq</code> module, which is used to implement a priority queue in the Uniform Cost Search (UCS) algorithm. The priority queue allows the algorithm to efficiently select the next node with the lowest cumulative cost, ensuring that the algorithm explores the least costly paths first, which is crucial for finding the optimal solution in a graph with weighted edges.</p>
-<div id="483e762d" class="cell" data-execution_count="1">
+<div id="51d1a7d8" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> heapq  <span class="co"># heapq is used to implement the priority queue</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>The second code cell defines the <code>ucs()</code> function, which implements the Uniform Cost Search algorithm. This algorithm explores the graph by expanding the least costly path first, using a priority queue to store nodes along with their path cost. It ensures that the shortest path (if one exists) from the starting node to the target node is found. The function returns the path and its total cost, or <code>None</code> and infinity if no path is found.</p>
-<div id="2525bde0" class="cell" data-execution_count="2">
+<div id="fb695e27" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to perform Uniform Cost Search (UCS)</span></span>
@@ -456,7 +456,7 @@ Goal State D is reached and the traversal is to be terminated
 </details>
 </div>
 <p>In the third code cell, an example graph is represented as an adjacency list, where each node has neighbors along with the cost of traveling to them. The <code>ucs()</code> function is called with a starting node and a target node. The result is printed, showing the shortest path from the start node to the target node, along with its total cost, or indicating that no path was found if applicable.</p>
-<div id="ce5c7d13" class="cell" data-execution_count="3">
+<div id="7635c0bb" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example graph represented as an adjacency list with edge weights.</span></span>
