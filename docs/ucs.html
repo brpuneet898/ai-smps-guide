@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>ucs</title>
+<title>UCS</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +19,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -170,15 +204,299 @@ ul.task-list li input[type="checkbox"] {
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./uninformed.html">Uninformed Search Algorithms</a></li><li class="breadcrumb-item"><a href="./ucs.html">Uniform Cost Search (UCS)</a></li></ol></nav></header>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./uninformed.html">Uninformed Search Algorithms</a></li><li class="breadcrumb-item"><a href="./ucs.html">Uniform Cost Search (UCS)</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">UCS</h1>
+</div>
 
 
 
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
 
 
+</header>
 
 
-</main> <!-- /main -->
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-43XXVJQ0JD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-43XXVJQ0JD');
+</script>
+<p>Uniform Cost Search (UCS) is a variant of Dijkstra’s Algorithm but it operates on State Space Search based problems on weighted graphs. With a memory requirement similar to BFS, UCS returns an optimal path even when the edge costs vary <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. The goal of UCS is to find a path to the goal state that has the minimum total cost from the start state. It does so by calculating the cumulative cost from the start state to the next state which has the least edge weight, prioritising lower costs in each move. But UCS can only operate on structures which have non-negative weights. While closely related to Dijsktra’s Algorithm, UCS is rooted in heuristic search <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>.</p>
+<section id="pseudocode-for-ucs-algorithm" class="level3">
+<h3 class="anchored" data-anchor-id="pseudocode-for-ucs-algorithm">Pseudocode for UCS Algorithm</h3>
+<pre class="plaintext"><code>1. function UCS(graph, start, target):
+2.     initialise priority_queue with (0, start, [])  
+3.     initialise visited set as empty
+4.     while priority_queue is not empty:
+5.         pop (cost, node, path) from priority_queue
+6.         if node == target, return path + [node], cost  
+7.         if node is not in visited:
+8.             mark node as visited
+9.             for each (neighbour, edge_cost) in graph[node]:
+10.                if neighbour not in visited, 
+         push (cost + edge_cost, neighbour, path + [node]) into priority_queue
+11.    return None, infinity </code></pre>
+<p>The data structure that is appropriate for the implementation of UCS is Priority Queue. Let us see an example:</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<svg width="672" height="480" viewbox="0.00 0.00 199.77 335.24" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 331.24)">
+<title>ucs_graph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-331.24 195.77,-331.24 195.77,4 -4,4"></polygon>
+<text text-anchor="middle" x="95.89" y="-8.2" font-family="Times,serif" font-size="14.00">UCS Example with Edge Costs</text>
+<!-- A -->
+<g id="node1" class="node">
+<title>A</title>
+<ellipse fill="none" stroke="black" cx="114.89" cy="-309.23" rx="18.02" ry="18.02"></ellipse>
+<text text-anchor="middle" x="114.89" y="-305.03" font-family="Times,serif" font-size="14.00">A</text>
+</g>
+<!-- B -->
+<g id="node2" class="node">
+<title>B</title>
+<ellipse fill="none" stroke="black" cx="74.89" cy="-220.42" rx="18" ry="18"></ellipse>
+<text text-anchor="middle" x="74.89" y="-216.22" font-family="Times,serif" font-size="14.00">B</text>
+</g>
+<!-- A&#45;&gt;B -->
+<g id="edge1" class="edge">
+<title>A-&gt;B</title>
+<path fill="none" stroke="black" d="M107.55,-292.31C101.59,-279.38 93.09,-260.92 86.25,-246.08"></path>
+<polygon fill="black" stroke="black" points="89.41,-244.57 82.04,-236.95 83.05,-247.5 89.41,-244.57"></polygon>
+<text text-anchor="middle" x="102.39" y="-260.62" font-family="Times,serif" font-size="14.00">1</text>
+</g>
+<!-- C -->
+<g id="node3" class="node">
+<title>C</title>
+<ellipse fill="none" stroke="black" cx="116.89" cy="-131.62" rx="18" ry="18"></ellipse>
+<text text-anchor="middle" x="116.89" y="-127.42" font-family="Times,serif" font-size="14.00">C</text>
+</g>
+<!-- A&#45;&gt;C -->
+<g id="edge2" class="edge">
+<title>A-&gt;C</title>
+<path fill="none" stroke="black" d="M115.08,-291.07C115.43,-260.65 116.15,-197 116.57,-160.31"></path>
+<polygon fill="black" stroke="black" points="120.08,-159.89 116.69,-149.85 113.08,-159.81 120.08,-159.89"></polygon>
+<text text-anchor="middle" x="119.39" y="-216.22" font-family="Times,serif" font-size="14.00">4</text>
+</g>
+<!-- B&#45;&gt;C -->
+<g id="edge3" class="edge">
+<title>B-&gt;C</title>
+<path fill="none" stroke="black" d="M82.39,-203.9C88.63,-191.02 97.61,-172.46 104.84,-157.51"></path>
+<polygon fill="black" stroke="black" points="108.1,-158.82 109.3,-148.3 101.79,-155.77 108.1,-158.82"></polygon>
+<text text-anchor="middle" x="103.39" y="-171.82" font-family="Times,serif" font-size="14.00">2</text>
+</g>
+<!-- D -->
+<g id="node4" class="node">
+<title>D</title>
+<ellipse fill="none" stroke="black" cx="89.89" cy="-42.81" rx="18.02" ry="18.02"></ellipse>
+<text text-anchor="middle" x="89.89" y="-38.61" font-family="Times,serif" font-size="14.00">D</text>
+</g>
+<!-- B&#45;&gt;D -->
+<g id="edge4" class="edge">
+<title>B-&gt;D</title>
+<path fill="none" stroke="black" d="M76.06,-202.18C77.52,-181.24 80.14,-144.82 82.89,-113.62 84.12,-99.59 85.67,-83.99 86.99,-71.11"></path>
+<polygon fill="black" stroke="black" points="90.49,-71.32 88.04,-61.01 83.53,-70.6 90.49,-71.32"></polygon>
+<text text-anchor="middle" x="86.39" y="-127.42" font-family="Times,serif" font-size="14.00">5</text>
+</g>
+<!-- C&#45;&gt;D -->
+<g id="edge5" class="edge">
+<title>C-&gt;D</title>
+<path fill="none" stroke="black" d="M111.81,-114.29C107.95,-101.88 102.56,-84.56 98.09,-70.19"></path>
+<polygon fill="black" stroke="black" points="101.35,-68.87 95.03,-60.36 94.66,-70.95 101.35,-68.87"></polygon>
+<text text-anchor="middle" x="109.39" y="-83.02" font-family="Times,serif" font-size="14.00">1</text>
+</g>
+</g>
+</svg>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>The priority queue will have three tuples as its elements - cost, node, and path. The initialisation will be done by adding the starting node A to the priority queue with a cost = 0. This would lead the priority queue to become :[(0, A, [A])].</p>
+<ul>
+<li>
+<strong>Step 1:</strong> Priority Queue is in the state [(0, A, [A])]
+</li>
+<ul>
+<li>
+Pop (0, A, [A]). Current node is A and path cost = 0
+</li>
+<li>
+Neighbour of A : B with cumulative cost = 1
+</li>
+<li>
+Add (1, B, [A, B])
+</li>
+<li>
+Neighbour of A: C with cumulative cost = 4
+</li>
+<li>
+Add (4, C, [A, C])
+</li>
+<li>
+Priority Queue is in the state [(1, B, [A, B]), (4, C, [A, C])]
+</li>
+</ul>
+<li>
+<strong>Step 2:</strong> Priority Queue is in the state [(1, B, [A, B]), (4, C, [A, C])]
+</li>
+<ul>
+<li>
+Pop (1, B, [A, B]). Current node is B and path cost = 1
+</li>
+<li>
+Neighbour of B : C with cumulative cost = 3
+</li>
+<li>
+Add (3, C, [A, B, C])
+</li>
+<li>
+Neighbour of B: D with cumulative cost = 6
+</li>
+<li>
+Add (6, D, [A, B, D])
+</li>
+<li>
+Priority Queue is in the state [(3, C, [A, B, C]), (4, C, [A, C]), (6, D, [A, B, D])]
+</li>
+</ul>
+<li>
+<strong>Step 3:</strong> Priority Queue is in the state [(3, C, [A, B, C]), (4, C, [A, C]), (6, D, [A, B, D])]
+</li>
+<ul>
+<li>
+Pop (3, C, [A, B, C]). Current node is C and path cost = 3
+</li>
+<li>
+Neighbour of C : D with cumulative cost = 4
+</li>
+<li>
+Add (4, D, [A, B, C, D])
+</li>
+<li>
+Priority Queue is in the state [(4, C, [A, C]), (6, D, [A, B, D]), (4, D, [A, B, C, D])]
+</li>
+</ul>
+<li>
+<strong>Step 4:</strong> Priority Queue is in the state [(4, C, [A, C]), (6, D, [A, B, D]), (4, D, [A, B, C, D])]
+</li>
+<ul>
+<li>
+Pop (4, D, [A, B, C, D]). Current node is D and path cost = 4
+</li>
+<li>
+Goal State D is reached and the traversal is to be terminated
+</li>
+</ul>
+</ul>
+<p>The path is A→B→C→D with the total cost =4. This way, UCS ensures that the traversal is optimal and is done through the lowest-cost path using priority queue.</p>
+</section>
+<section id="iddfs-algorithm-implementation" class="level3">
+<h3 class="anchored" data-anchor-id="iddfs-algorithm-implementation">IDDFS Algorithm Implementation</h3>
+<p>The first code cell imports the <code>heapq</code> module, which is used to implement a priority queue in the Uniform Cost Search (UCS) algorithm. The priority queue allows the algorithm to efficiently select the next node with the lowest cumulative cost, ensuring that the algorithm explores the least costly paths first, which is crucial for finding the optimal solution in a graph with weighted edges.</p>
+<div id="483e762d" class="cell" data-execution_count="1">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> heapq  <span class="co"># heapq is used to implement the priority queue</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>The second code cell defines the <code>ucs()</code> function, which implements the Uniform Cost Search algorithm. This algorithm explores the graph by expanding the least costly path first, using a priority queue to store nodes along with their path cost. It ensures that the shortest path (if one exists) from the starting node to the target node is found. The function returns the path and its total cost, or <code>None</code> and infinity if no path is found.</p>
+<div id="2525bde0" class="cell" data-execution_count="2">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to perform Uniform Cost Search (UCS)</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> ucs(graph, start, target):</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Priority queue to store nodes to explore along with their current path cost.</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># The queue will store tuples of the form (cost, node, path).</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    priority_queue <span class="op">=</span> []</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add the start node to the priority queue with a cost of 0 and an empty path.</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    heapq.heappush(priority_queue, (<span class="dv">0</span>, start, []))</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Set to keep track of visited nodes to avoid revisiting them</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    visited <span class="op">=</span> <span class="bu">set</span>()</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> priority_queue:</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Get the node with the lowest cost from the priority queue</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>        cost, node, path <span class="op">=</span> heapq.heappop(priority_queue)</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>        <span class="co"># If the node is the target, return the full path (start -&gt; ... -&gt; target) and its cost</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> node <span class="op">==</span> target:</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> path <span class="op">+</span> [node], cost</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>        <span class="co"># If the node has already been visited, skip it</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> node <span class="kw">in</span> visited:</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>            <span class="cf">continue</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Mark the current node as visited</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>        visited.add(node)</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Explore the neighbors of the current node</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> neighbor, edge_cost <span class="kw">in</span> graph[node]:</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>            <span class="co"># If the neighbor has not been visited, add it to the priority queue</span></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> neighbor <span class="kw">not</span> <span class="kw">in</span> visited:</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>                heapq.heappush(priority_queue, (cost <span class="op">+</span> edge_cost, neighbor, path <span class="op">+</span> [node]))</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>    <span class="co"># If no path is found, return None</span></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">None</span>, <span class="bu">float</span>(<span class="st">'inf'</span>)  <span class="co"># No path found, return infinite cost</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>In the third code cell, an example graph is represented as an adjacency list, where each node has neighbors along with the cost of traveling to them. The <code>ucs()</code> function is called with a starting node and a target node. The result is printed, showing the shortest path from the start node to the target node, along with its total cost, or indicating that no path was found if applicable.</p>
+<div id="ce5c7d13" class="cell" data-execution_count="3">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example graph represented as an adjacency list with edge weights.</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Each node has a list of tuples: (neighbor, cost)</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>graph <span class="op">=</span> {</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'A'</span>: [(<span class="st">'B'</span>, <span class="dv">1</span>), (<span class="st">'C'</span>, <span class="dv">4</span>)],</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'B'</span>: [(<span class="st">'A'</span>, <span class="dv">1</span>), (<span class="st">'C'</span>, <span class="dv">2</span>), (<span class="st">'D'</span>, <span class="dv">5</span>)],</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'C'</span>: [(<span class="st">'A'</span>, <span class="dv">4</span>), (<span class="st">'B'</span>, <span class="dv">2</span>), (<span class="st">'D'</span>, <span class="dv">1</span>)],</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'D'</span>: [(<span class="st">'B'</span>, <span class="dv">5</span>), (<span class="st">'C'</span>, <span class="dv">1</span>)]</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Starting and target nodes</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>start_node <span class="op">=</span> <span class="st">'A'</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>target_node <span class="op">=</span> <span class="st">'D'</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Call the UCS function to find the shortest path</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>path, cost <span class="op">=</span> ucs(graph, start_node, target_node)</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the result</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> path:</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Shortest path from </span><span class="sc">{</span>start_node<span class="sc">}</span><span class="ss"> to </span><span class="sc">{</span>target_node<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>path<span class="sc">}</span><span class="ss"> with total cost </span><span class="sc">{</span>cost<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"No path found from </span><span class="sc">{</span>start_node<span class="sc">}</span><span class="ss"> to </span><span class="sc">{</span>target_node<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Shortest path from A to D: ['A', 'B', 'C', 'D'] with total cost 4</code></pre>
+</div>
+</div>
+
+
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>Illinois University Notes, Uninformed Search 4. <a href="https://courses.grainger.illinois.edu/cs440/fa2021/lectures/search4.html">Link</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Felner, A. (2011). Position paper: Dijkstra’s algorithm versus uniform cost search or a case against dijkstra’s algorithm. In Proceedings of the International Symposium on Combinatorial Search (Vol. 2, No.&nbsp;1, pp.&nbsp;47-51). <a href="https://ojs.aaai.org/index.php/SOCS/article/view/18191/17982">Link</a><a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

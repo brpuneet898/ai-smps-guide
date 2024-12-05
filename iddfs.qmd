@@ -1,0 +1,156 @@
+---
+title: "IDDFS"
+format:
+  html:
+    code-fold: true
+jupyter: python3
+---
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-43XXVJQ0JD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-43XXVJQ0JD');
+</script>
+
+Iterative Deepening Depth First Search (IDDFS) is an algorithm that is designed to overcome the limitations of both BFS and DFS in trees. It operates by performing a DFS iteratively, while increasing the limit of the depth with each iteration. For instance, it first searches to depth=1, then restarts and searches to depth=2, followed by depth=3 and so on, until the goal state is found. Since IDDFS expands all nodes at a given depth before moving to deeper levels, it guarantees finding the shortest path [^1].
+
+### Pseudocode for IDDFS Algorithm
+
+```plaintext
+1. function IDDFS(graph, start, target):
+2.     depth = 0
+3.     while True:
+4.         print "Searching at depth", depth 
+5.         path = DLS(graph, start, target, depth)  
+6.         if path is not None, return path 
+7.         depth += 1  
+8. function DLS(graph, start, target, limit, path=[], visited=set()):
+9.     add start to path and visited
+10.    if start == target, return path
+11.    if limit == 0, return None
+12.    for each neighbour of start:
+13.        if neighbour not in visited:
+14.            result = DLS(graph, neighbour, target, limit - 1, path, visited)
+15.            if result is not None, return result
+16.    return None
+```
+
+One of the drawbacks that IDDFS has is the repeated computation for nodes in earlier depths, which might seem inefficient at first glance. However, an analysis of its runtime for exponential tree searches reveals that the majority of work occurs at the deepest level, minimising the impact of earlier repetitions on overall efficiency. IDDFS is optimally time efficient among brute-force tree searches in terms of time, space usage, and solution length. A brute-force search is an algorithm that uses no additional information beyond the initial state, the operators of the search space, and a test for identifying solutions.
+
+Let us look at an example of IDDFS traversal, on a graph, with stack data structure. The vertices are A, B, C, D, E, F, with the starting vertex being A with increasing depth limits. 
+
+```{dot}
+graph iddfs_graph {
+  A [label="A" shape=circle];
+  B [label="B" shape=circle];
+  C [label="C" shape=circle];
+  D [label="D" shape=circle];
+  E [label="E" shape=circle];
+  F [label="F" shape=circle];
+  A -- B;
+  A -- C;
+  B -- D;
+  B -- E;
+  C -- F;
+  rankdir="TB"; 
+  labelloc="b";
+  label="IDDFS Traversal Graph";
+}
+```
+
+For Depth Limit 1
+
+<ul>
+  <li>**Step 1:** Take a stack with size equal to the total number of vertices in the graph.</li>
+  <li>**Step 2:** Take any vertex as the starting point for traversal. Push that vertex to the stack, along with its depth, once visited.</li>
+  <li>**Step 3:** Go to any of the non-visited adjacent vertices of the current vertex, which is on the top of the stack, provided its depth is within L, and push the new vertex on the top of the stack.</li>
+  <li>**Step 4:** Keep repeating Step 3 till there are no vertices which can be visited from the top one.</li>
+  <li>**Step 5:** If no further vertices can be visited, due to depth limit or no adjacency, backtrack and pop one vertex from the stack.</li>
+  <li>**Step 6:** Repeat Step 3,4, and 5 until the stack is empty.</li>
+</ul>
+
+### IDDFS Algorithm Implementation
+
+The first code cell defines the `dls()` function, which is used in the IDDFS algorithm. It implements the Depth Limited Search (DLS) technique, where a search is conducted up to a specific depth limit. The function explores neighbors of the current node and recurses with a reduced depth limit. If a path to the target node is found, it is returned; otherwise, the function continues the search until the depth limit is reached or a path is found.
+
+```{python}
+# Depth Limited Search (DLS) function used by IDDFS
+def dls(graph, start, target, limit, path=None, visited=None):
+    if path is None:
+        path = []
+    if visited is None:
+        visited = set()
+
+    # Add the current node to the path and visited set
+    path.append(start)
+    visited.add(start)
+
+    # If we found the target, return the path
+    if start == target:
+        return path
+
+    # If the depth limit is reached, stop further exploration
+    if limit == 0:
+        return None
+
+    # Explore the neighbors of the current node
+    for neighbor in graph[start]:
+        # If the neighbor has not been visited yet, recurse deeper with reduced limit
+        if neighbor not in visited:
+            result = dls(graph, neighbor, target, limit - 1, path, visited)
+            if result:
+                return result
+
+    # If no path is found, return None
+    return None
+```
+
+The second code cell implements the Iterative Deepening Depth First Search (IDDFS) algorithm. This approach repeatedly performs a depth-limited search (`dls()`) with increasing depth limits, starting from 0 and going upwards. After each search at a given depth, if the target node is found, the path is returned. If not, the depth limit is incremented, and the search continues at the next depth level, ensuring the algorithm eventually finds the target if it's reachable.
+
+```{python}
+# Iterative Deepening DFS (IDDFS) function
+def iddfs(graph, start, target):
+    # Start with depth limit 0 and keep increasing it
+    depth = 0
+    while True:
+        print(f"Searching at depth {depth}...")  # Just to show the current depth
+        path = dls(graph, start, target, depth)
+
+        # If a path is found, return it
+        if path:
+            return path
+        
+        # Increment the depth limit for the next iteration
+        depth += 1
+```
+
+In the third code cell, an example graph is represented as an adjacency list, with nodes connected by edges. The `iddfs()` function is called to find a path from the starting node to the target node. The result is printed, showing whether a path was found and the corresponding path, or indicating that no path was found.
+
+```{python}
+# Example graph represented as an adjacency list
+graph = {
+    0: [1, 2],
+    1: [0, 3],
+    2: [0, 3],
+    3: [1, 2]
+}
+
+# Starting and target nodes
+start_node = 0
+target_node = 3
+
+# Call the IDDFS function to find the path
+path = iddfs(graph, start_node, target_node)
+
+# Print the result
+if path:
+    print(f"Path found from {start_node} to {target_node}: {path}")
+else:
+    print(f"No path found from {start_node} to {target_node}")
+```
+
+[^1]: Korf, R. E. (1985). Depth-first iterative-deepening: An optimal admissible tree search. Artificial intelligence, 27(1), 97-109. [Link](https://www.sciencedirect.com/science/article/abs/pii/0004370285900840)

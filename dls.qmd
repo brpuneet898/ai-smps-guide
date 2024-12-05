@@ -1,0 +1,212 @@
+---
+title: "DLS"
+format:
+  html:
+    code-fold: true
+jupyter: python3
+---
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-43XXVJQ0JD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-43XXVJQ0JD');
+</script>
+
+Depth Limited Search (DLS) is a modified version of DFS. When it comes to DLS, the search is limited to specific depth L. At that particular depth, the nodes are considered to have no successors. This, in turn, takes care of the case where DFS might end up searching indefinitely in case the search space spans infinitely or is too large to search in a cost efficient way. DLS starts at the root node and explores all nodes at the current depth before moving on to the next level. If the Goal State is not attained in the current depth, the search shall continue to the next level until either the Goal State is found or the depth limit is reached [^1].
+
+### Pseudocode for DLS Algorithm
+
+```plaintext
+1. function DLS(graph, start, target, limit, path=[], visited=set()):
+2.     add start to path
+3.     add start to visited
+4.     if start == target, return path
+5.     if limit == 0, return None
+6.     for each neighbour of start:
+7.         if neighbour not in visited:
+8.             result = DLS(graph, neighbour, target, limit - 1, path, visited)
+9.             if result is not None, return result
+10.    return None
+```
+
+Let us understand using an example, consider the following graph:
+
+```{dot}
+graph dls_graph {
+  A [label="A" shape=circle];
+  B [label="B" shape=circle];
+  C [label="C" shape=circle];
+  D [label="D" shape=circle];
+  E [label="E" shape=circle];
+  F [label="F" shape=circle];
+  G [label="G" shape=circle];
+  H [label="H" shape=circle];
+  A -- B;
+  A -- C;
+  B -- D;
+  B -- E;
+  C -- F;
+  C -- G;
+  D -- H;
+  rankdir="TB"; 
+  labelloc="b";
+  label="DLS Traversal";
+}
+```
+
+DLS shall explore all the nodes level-by-level and terminate once it has reached L. Let us consider L to be 2 in this case.
+
+<ul>
+  <li>**Step 1:** Start at the root node, A in this case (Depth=0)</li>
+  <ul>
+    <li>Check if A is the goal state. If not, move to its children</li>
+  </ul>
+  <li>**Step 2:** Move to the first child B (Depth=1) [Choice between to nodes on the same level is usually based on alphabetic precedence]</li>
+  <ul>
+    <li>Check if B is the goal state. If not, move to its children</li>
+  </ul>
+  <li>**Step 3:** Move to D, the first child (Depth=2)</li>
+  <ul>
+    <li>D is within L=2. If D is not the goal state, backtrack to B and move to another child.</li>
+  </ul>
+  <li>**Step 4:** Move to E, the second child of B (Depth=2)</li>
+  <ul>
+    <li>E is within L=2. If E is not the goal state, backtrack to B, then to A, and move to another child of A</li>
+  </ul>
+  <li>**Step 5:** Move to C, the second child of A (Depth=1)</li>
+  <ul>
+    <li>If C is not the goal state, explore its children=n</li>
+  </ul>
+  <li>**Step 6:** Move to F, the first child of C (Depth=2)</li>
+  <ul>
+    <li>F is within L=2. If it is not the goal state, backtrack to C and move to another child</li>
+  </ul>
+  <li>**Step 7:** Move to G, the second child of C (Depth=2)</li>
+  <ul>
+    <li>G is within L=2. If it is not the goal state, backtrack to C, then to A</li>
+  </ul>
+  <li>**Step 8:** Traversal Terminates</li>
+</ul>
+
+After exploring all the nodes up to depth=2, the algorithm terminates. Node H is not explored because L=2 and Depth(H)>2. Thus the order of traversal for the above example is A →B→D→E→C→F→G. DLS is also implemented using Stacks in the following way:
+
+<ul>
+  <li>**Step 1:** Take a stack with size equal to the total number of vertices in the graph.</li>
+  <li>**Step 2:** Take any vertex as the starting point for traversal. Push that vertex to the stack, along with its depth, once visited.</li>
+  <li>**Step 3:** Go to any of the non-visited adjacent vertices of the current vertex, which is on the top of the stack, provided its depth is within L, and push the new vertex on the top of the stack.</li>
+  <li>**Step 4:** Keep repeating Step 3 till there are no vertices which can be visited from the top one. </li>
+  <li>**Step 5:** If no further vertices can be visited, due to depth limit or no adjacency, backtrack and pop one vertex from the stack.</li>
+  <li>**Step 6:** Repeat Step 3,4, and 5 until the stack is empty.</li>
+</ul>
+
+Let us visualise DLS with an example. File Systems are one of the key elements of any modern computational device for them to operate smoothly. Such file systems can be represented through directory trees wherein DLS can be applied to search files up to a specific depth. Consider a case where the user wants to search a specific file but is only interested in doing so till a certain depth, L=2. 
+
+```{dot}
+digraph dls_graph2 {
+  Root [label="Root" shape=circle];
+  Folder1 [label="Folder1" shape=circle];
+  Folder2 [label="Folder2" shape=circle];
+  Folder3 [label="Folder3" shape=circle];
+  File1.1 [label="File1.1" shape=circle];
+  File1.2 [label="File1.2" shape=circle];
+  File2.1 [label="File2.1" shape=circle];
+  File3.1 [label="File3.1" shape=circle];
+  File3.2 [label="File3.2" shape=circle];
+  File3.3 [label="File3.3" shape=circle];
+  File2.1.1 [label="File2.1.1" shape=circle];
+  Root -> Folder1;
+  Root -> Folder2;
+  Root -> Folder3;
+  Folder1 -> File1.1;
+  Folder1 -> File1.2;
+  Folder2 -> File2.1;
+  Folder3 -> File3.1;
+  Folder3 -> File3.2;
+  Folder3 -> File3.3;
+  File2.1 -> Flie2.1.1
+  rankdir="TB"; 
+  labelloc="b";
+  label="DLS Example using File System Heirarchy";
+}
+```
+
+The search shall begin at the Root directory with L=2. Each directory would be explored recursively with files and subdirectories within L being visited. A Stack would be maintained to manage visited directories while directories and files with depth>L would be ignored. Backtracking would be continued to explore other branches within L. If the desired file is found within the limit L, return its path. Or else, it is to be concluded that the file being looked for is not in the allowed depth. Thus, the traverse path would follow the following pattern:
+
+<ul>
+  <li>Root →Folder 1→File 1.1→[BACKTRACK]→Folder 1→File 1.2</li>
+  <li>[BACKTRACK]→Root→Folder 2→Folder 2.1 (Not its contents because they are at depth=3)</li>
+  <li>[BACKTRACK]→Root→Folder 3→File 3.1→[BACKTRACK]→Folder 3→[BACKTRACK]→File 3.2→[BACKTRACK]→Folder 3→File 3.3</li>
+</ul>
+
+Beyond depth 2, the search will not proceed. 
+
+### DLS Algorithm Implementation
+
+The following cell implements the Depth Limited Search (DLS) algorithm, which is a variant of Depth First Search (DFS) with a maximum search depth limit. The function `dls()` explores a graph from a given starting node, looking for a path to the target node. It limits the depth of the search and ensures that no node is revisited. The function returns the path if found, or `None` if no path is found within the given depth limit.
+
+```{python}
+# Function to perform Depth Limited Search to find a path from start to target
+def dls(graph, start, target, limit, path=None, visited=None):
+    # Initialize the path and visited set if they are not provided
+    if path is None:
+        path = []
+    if visited is None:
+        visited = set()
+
+    # Add the current node to the path and visited set
+    path.append(start)
+    visited.add(start)
+
+    # If we found the target, return the path
+    if start == target:
+        return path
+
+    # If the depth limit is reached, stop further exploration
+    if limit == 0:
+        return None
+
+    # Explore the neighbors of the current node
+    for neighbor in graph[start]:
+        # If the neighbor has not been visited yet, recurse deeper with reduced limit
+        if neighbor not in visited:
+            result = dls(graph, neighbor, target, limit - 1, path, visited)
+            # If a valid path is found, return it
+            if result:
+                return result
+
+    # If no path is found, return None
+    return None
+```
+
+In this cell, an example graph is represented as an adjacency list. The graph has nodes and edges, with each node pointing to its neighbors. The function `dls()` is called with a starting node, target node, and depth limit to search for a path. The result is printed to indicate whether a path was found or not within the specified depth limit.
+
+```{python}
+# Example graph represented as an adjacency list
+graph = {
+    0: [1, 2],
+    1: [0, 3],
+    2: [0, 3],
+    3: [1, 2]
+}
+
+# Starting and target nodes
+start_node = 0
+target_node = 3
+# Depth limit for the search
+depth_limit = 1
+
+# Call the DLS function to find the path
+path = dls(graph, start_node, target_node, depth_limit)
+
+# Print the result
+if path:
+    print(f"Path found from {start_node} to {target_node}: {path}")
+else:
+    print(f"No path found from {start_node} to {target_node} within depth limit {depth_limit}")
+```
+
+[^1]: Kumar, R. R., Vadlapatla, T. S. S., Azmeera, S., Komaraneni, A., & Jula, A. (2023). Performance Comparison of Depth Limited Search and A* Algorithm: A Case Study. In E3S Web of Conferences (Vol. 391, p. 01140). EDP Sciences. [Link](https://www.e3s-conferences.org/articles/e3sconf/pdf/2023/28/e3sconf_icmed-icmpc2023_01140.pdf)

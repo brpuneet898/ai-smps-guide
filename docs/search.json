@@ -31,6 +31,28 @@
     ]
   },
   {
+    "objectID": "iddfs.html",
+    "href": "iddfs.html",
+    "title": "IDDFS",
+    "section": "",
+    "text": "Iterative Deepening Depth First Search (IDDFS) is an algorithm that is designed to overcome the limitations of both BFS and DFS in trees. It operates by performing a DFS iteratively, while increasing the limit of the depth with each iteration. For instance, it first searches to depth=1, then restarts and searches to depth=2, followed by depth=3 and so on, until the goal state is found. Since IDDFS expands all nodes at a given depth before moving to deeper levels, it guarantees finding the shortest path 1.",
+    "crumbs": [
+      "Uninformed Search Algorithms",
+      "Iterative Deepening DFS (IDDFS)"
+    ]
+  },
+  {
+    "objectID": "iddfs.html#footnotes",
+    "href": "iddfs.html#footnotes",
+    "title": "IDDFS",
+    "section": "Footnotes",
+    "text": "Footnotes\n\n\nKorf, R. E. (1985). Depth-first iterative-deepening: An optimal admissible tree search. Artificial intelligence, 27(1), 97-109. Link↩︎",
+    "crumbs": [
+      "Uninformed Search Algorithms",
+      "Iterative Deepening DFS (IDDFS)"
+    ]
+  },
+  {
     "objectID": "dfs.html",
     "href": "dfs.html",
     "title": "DFS",
@@ -75,6 +97,28 @@
     ]
   },
   {
+    "objectID": "dls.html",
+    "href": "dls.html",
+    "title": "DLS",
+    "section": "",
+    "text": "Depth Limited Search (DLS) is a modified version of DFS. When it comes to DLS, the search is limited to specific depth L. At that particular depth, the nodes are considered to have no successors. This, in turn, takes care of the case where DFS might end up searching indefinitely in case the search space spans infinitely or is too large to search in a cost efficient way. DLS starts at the root node and explores all nodes at the current depth before moving on to the next level. If the Goal State is not attained in the current depth, the search shall continue to the next level until either the Goal State is found or the depth limit is reached 1.",
+    "crumbs": [
+      "Uninformed Search Algorithms",
+      "Depth Limited Search (DLS)"
+    ]
+  },
+  {
+    "objectID": "dls.html#footnotes",
+    "href": "dls.html#footnotes",
+    "title": "DLS",
+    "section": "Footnotes",
+    "text": "Footnotes\n\n\nKumar, R. R., Vadlapatla, T. S. S., Azmeera, S., Komaraneni, A., & Jula, A. (2023). Performance Comparison of Depth Limited Search and A* Algorithm: A Case Study. In E3S Web of Conferences (Vol. 391, p. 01140). EDP Sciences. Link↩︎",
+    "crumbs": [
+      "Uninformed Search Algorithms",
+      "Depth Limited Search (DLS)"
+    ]
+  },
+  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Complete Guide to AI-SMPS",
@@ -82,6 +126,28 @@
     "text": "Table of Contents\n\nIntroduction\nUninformed Search\n\nBreadth-First Search (BFS)\nDepth-First Search (DFS)\nDepth Limited Search (DLS)\nIterative Deepening Depth First Search (IDDFS)\nUniform Cost Search (UCS)",
     "crumbs": [
       "Index"
+    ]
+  },
+  {
+    "objectID": "ucs.html",
+    "href": "ucs.html",
+    "title": "UCS",
+    "section": "",
+    "text": "Uniform Cost Search (UCS) is a variant of Dijkstra’s Algorithm but it operates on State Space Search based problems on weighted graphs. With a memory requirement similar to BFS, UCS returns an optimal path even when the edge costs vary 1. The goal of UCS is to find a path to the goal state that has the minimum total cost from the start state. It does so by calculating the cumulative cost from the start state to the next state which has the least edge weight, prioritising lower costs in each move. But UCS can only operate on structures which have non-negative weights. While closely related to Dijsktra’s Algorithm, UCS is rooted in heuristic search 2.",
+    "crumbs": [
+      "Uninformed Search Algorithms",
+      "Uniform Cost Search (UCS)"
+    ]
+  },
+  {
+    "objectID": "ucs.html#footnotes",
+    "href": "ucs.html#footnotes",
+    "title": "UCS",
+    "section": "Footnotes",
+    "text": "Footnotes\n\n\nIllinois University Notes, Uninformed Search 4. Link↩︎\nFelner, A. (2011). Position paper: Dijkstra’s algorithm versus uniform cost search or a case against dijkstra’s algorithm. In Proceedings of the International Symposium on Combinatorial Search (Vol. 2, No. 1, pp. 47-51). Link↩︎",
+    "crumbs": [
+      "Uninformed Search Algorithms",
+      "Uniform Cost Search (UCS)"
     ]
   }
 ]
