@@ -5,7 +5,6 @@ output:
     toc: true
     toc_depth: 2
 page-navigation: true
-back-to-top-navigation: true
 ---
 
 <!-- Google tag (gtag.js) -->

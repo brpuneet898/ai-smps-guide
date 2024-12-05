@@ -64,6 +64,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<link href="./iddfs.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -135,6 +136,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         </div>
         <div class="sidebar-tools-collapse">
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
 </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
@@ -412,14 +418,14 @@ Goal State D is reached and the traversal is to be terminated
 <section id="iddfs-algorithm-implementation" class="level3">
 <h3 class="anchored" data-anchor-id="iddfs-algorithm-implementation">IDDFS Algorithm Implementation</h3>
 <p>The first code cell imports the <code>heapq</code> module, which is used to implement a priority queue in the Uniform Cost Search (UCS) algorithm. The priority queue allows the algorithm to efficiently select the next node with the lowest cumulative cost, ensuring that the algorithm explores the least costly paths first, which is crucial for finding the optimal solution in a graph with weighted edges.</p>
-<div id="009d7e2b" class="cell" data-execution_count="1">
+<div id="d9892134" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> heapq  <span class="co"># heapq is used to implement the priority queue</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>The second code cell defines the <code>ucs()</code> function, which implements the Uniform Cost Search algorithm. This algorithm explores the graph by expanding the least costly path first, using a priority queue to store nodes along with their path cost. It ensures that the shortest path (if one exists) from the starting node to the target node is found. The function returns the path and its total cost, or <code>None</code> and infinity if no path is found.</p>
-<div id="dd68caaf" class="cell" data-execution_count="2">
+<div id="69b5b789" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to perform Uniform Cost Search (UCS)</span></span>
@@ -460,7 +466,7 @@ Goal State D is reached and the traversal is to be terminated
 </details>
 </div>
 <p>In the third code cell, an example graph is represented as an adjacency list, where each node has neighbors along with the cost of traveling to them. The <code>ucs()</code> function is called with a starting node and a target node. The result is printed, showing the shortest path from the start node to the target node, along with its total cost, or indicating that no path was found if applicable.</p>
-<div id="ef2b674f" class="cell" data-execution_count="3">
+<div id="dccb358e" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example graph represented as an adjacency list with edge weights.</span></span>
@@ -494,7 +500,7 @@ Goal State D is reached and the traversal is to be terminated
 </section>
 
 
-<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
 
 <ol>
 <li id="fn1"><p>Illinois University Notes, Uninformed Search 4. <a href="https://courses.grainger.illinois.edu/cs440/fa2021/lectures/search4.html">Link</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
@@ -1062,6 +1068,15 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./iddfs.html" class="pagination-link" aria-label="Iterative Deepening DFS (IDDFS)">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Iterative Deepening DFS (IDDFS)</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
 </div> <!-- /content -->
 
 

@@ -64,6 +64,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<link href="./ucs.html" rel="next">
+<link href="./dls.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -135,6 +137,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         </div>
         <div class="sidebar-tools-collapse">
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
 </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
@@ -362,7 +369,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="iddfs-algorithm-implementation" class="level3">
 <h3 class="anchored" data-anchor-id="iddfs-algorithm-implementation">IDDFS Algorithm Implementation</h3>
 <p>The first code cell defines the <code>dls()</code> function, which is used in the IDDFS algorithm. It implements the Depth Limited Search (DLS) technique, where a search is conducted up to a specific depth limit. The function explores neighbors of the current node and recurses with a reduced depth limit. If a path to the target node is found, it is returned; otherwise, the function continues the search until the depth limit is reached or a path is found.</p>
-<div id="c3780a74" class="cell" data-execution_count="1">
+<div id="cf0e251c" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Depth Limited Search (DLS) function used by IDDFS</span></span>
@@ -397,7 +404,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 </div>
 <p>The second code cell implements the Iterative Deepening Depth First Search (IDDFS) algorithm. This approach repeatedly performs a depth-limited search (<code>dls()</code>) with increasing depth limits, starting from 0 and going upwards. After each search at a given depth, if the target node is found, the path is returned. If not, the depth limit is incremented, and the search continues at the next depth level, ensuring the algorithm eventually finds the target if it’s reachable.</p>
-<div id="3ea8a640" class="cell" data-execution_count="2">
+<div id="16ea9dc0" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Iterative Deepening DFS (IDDFS) function</span></span>
@@ -417,7 +424,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 </div>
 <p>In the third code cell, an example graph is represented as an adjacency list, with nodes connected by edges. The <code>iddfs()</code> function is called to find a path from the starting node to the target node. The result is printed, showing whether a path was found and the corresponding path, or indicating that no path was found.</p>
-<div id="1686548e" class="cell" data-execution_count="3">
+<div id="7c6d50af" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example graph represented as an adjacency list</span></span>
@@ -453,7 +460,7 @@ Path found from 0 to 3: [0, 1, 3]</code></pre>
 </section>
 
 
-<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
 
 <ol>
 <li id="fn1"><p>Korf, R. E. (1985). Depth-first iterative-deepening: An optimal admissible tree search. Artificial intelligence, 27(1), 97-109. <a href="https://www.sciencedirect.com/science/article/abs/pii/0004370285900840">Link</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
@@ -1020,6 +1027,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./dls.html" class="pagination-link" aria-label="Depth Limited Search (DLS)">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Depth Limited Search (DLS)</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./ucs.html" class="pagination-link" aria-label="Uniform Cost Search (UCS)">
+        <span class="nav-page-text">Uniform Cost Search (UCS)</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
 </div> <!-- /content -->
 
 

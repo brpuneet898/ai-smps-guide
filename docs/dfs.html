@@ -64,6 +64,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<link href="./dls.html" rel="next">
+<link href="./bfs.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -164,6 +166,11 @@ window.Quarto = {
         </div>
         <div class="sidebar-tools-collapse">
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
 </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
@@ -554,7 +561,7 @@ window.Quarto = {
 <section id="dfs-algorithm-implementation" class="level3">
 <h3 class="anchored" data-anchor-id="dfs-algorithm-implementation">DFS Algorithm Implementation</h3>
 <p>The following Python code defines a recursive Depth-First Search (DFS) function to find a path from a starting node to a target node in a graph. The function takes the graph, start node, and target node as inputs, and uses a <code>path</code> list to track the current path and a <code>visited</code> set to avoid revisiting nodes. It explores each neighbor of the current node recursively until the target is found or all paths are explored.</p>
-<div id="72171fcb" class="cell" data-execution_count="1">
+<div id="d06fb608" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to perform DFS to find a path from start to target</span></span>
@@ -587,7 +594,7 @@ window.Quarto = {
 </details>
 </div>
 <p>This Python code demonstrates the use of the previously defined DFS function to search for a path in a specific graph. The graph is represented as an adjacency list, with nodes and their respective neighbors. The DFS function is called with start and target nodes, and the resulting path is printed if one is found. If no path exists, the code outputs a message indicating that no path was found between the two nodes.</p>
-<div id="c687336b" class="cell" data-execution_count="2">
+<div id="8430a7da" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example graph represented as an adjacency list</span></span>
@@ -620,7 +627,7 @@ window.Quarto = {
 </section>
 
 
-<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
 
 <ol>
 <li id="fn1"><p>Tarjan, R. (1972). Depth-first search and linear graph algorithms. SIAM journal on computing, 1(2), 146-160. <a href="https://epubs.siam.org/doi/10.1137/0201010">Link</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
@@ -1187,6 +1194,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./bfs.html" class="pagination-link" aria-label="Breadth-First Search (BFS)">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Breadth-First Search (BFS)</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./dls.html" class="pagination-link" aria-label="Depth Limited Search (DLS)">
+        <span class="nav-page-text">Depth Limited Search (DLS)</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
 </div> <!-- /content -->
 
 
