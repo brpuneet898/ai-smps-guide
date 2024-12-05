@@ -4,7 +4,7 @@
     "href": "uninformed.html",
     "title": "Uninformed Search Algorithms",
     "section": "",
-    "text": "The Search Algorithms which have no prior information regarding the Goal State except for the ones provided in the problem statement are called Uninformed Search Algorithms. In order to reach the Goal State from the Start State, these algorithms do a Blind Search - generating a successor at each node and checking whether the Goal State Function is satisfied at that State. Few types of uninformed search algorithms include Breadth-First Search (BFS), Depth-First Search (DFS), Uniform Cost Search (UCS), Iterative Deepening DFS (IDDFS), and Depth Limited Search (DLS). Each algorithm has a unique way of exploring the search space, some do by going level by level, some other move as per the depth parameter, etc. Another important point to note is that these algorithms are relatively simpler to implement, but are not very efficient. This is due to the fact that they do not prioritise or direct the search towards the most promising paths. Thus, they might require a large amount of computational resources and time to find the goal state, particularly in the complex problem domains.",
+    "text": "The Search Algorithms which have no prior information regarding the Goal State except for the ones provided in the problem statement are called Uninformed Search Algorithms. In order to reach the Goal State from the Start State, these algorithms do a Blind Search - generating a successor at each node and checking whether the Goal State Function is satisfied at that State. Few types of uninformed search algorithms include Breadth-First Search (BFS), Depth-First Search (DFS), Uniform Cost Search (UCS), Iterative Deepening DFS (IDDFS), and Depth Limited Search (DLS). Each algorithm has a unique way of exploring the search space, some do by going level by level, some other move as per the depth parameter, etc. Another important point to note is that these algorithms are relatively simpler to implement, but are not very efficient. This is due to the fact that they do not prioritise or direct the search towards the most promising paths. Thus, they might require a large amount of computational resources and time to find the goal state, particularly in the complex problem domains.\n\n\n\n Back to top",
     "crumbs": [
       "Uninformed Search Algorithms",
       "Uninformed Search Overview"
@@ -123,7 +123,7 @@
     "href": "index.html",
     "title": "Complete Guide to AI-SMPS",
     "section": "",
-    "text": "Table of Contents\n\nIntroduction\nUninformed Search\n\nBreadth-First Search (BFS)\nDepth-First Search (DFS)\nDepth Limited Search (DLS)\nIterative Deepening Depth First Search (IDDFS)\nUniform Cost Search (UCS)",
+    "text": "Table of Contents\n\nIntroduction\nUninformed Search\n\nBreadth-First Search (BFS)\nDepth-First Search (DFS)\nDepth Limited Search (DLS)\nIterative Deepening Depth First Search (IDDFS)\nUniform Cost Search (UCS)\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Index"
     ]

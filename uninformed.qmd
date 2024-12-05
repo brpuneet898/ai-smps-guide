@@ -4,6 +4,8 @@ format:
   html:
     code-fold: true
 jupyter: python3
+page-navigation: true
+back-to-top-navigation: true
 ---
 
 <!-- Google tag (gtag.js) -->

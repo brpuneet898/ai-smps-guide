@@ -2,6 +2,7 @@ project:
   type: website
 
 website:
+  back-to-top-navigation: true
   sidebar:
     style: "docked"
     search: true
