@@ -24,6 +24,7 @@ website:
             href: iddfs.qmd
           - text: "Uniform Cost Search (UCS)"
             href: ucs.qmd
+      - section: "Informed Search Algorithms"
 
 theme:
   light: litera

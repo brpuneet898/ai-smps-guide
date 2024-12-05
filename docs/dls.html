@@ -197,6 +197,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
       </ul>
   </li>
+        <li class="sidebar-item sidebar-item-section">
+      <span class="sidebar-item-text sidebar-link text-start">
+ <span class="menu-text">Informed Search Algorithms</span></span>
+  </li>
     </ul>
     </div>
 </nav>
@@ -592,7 +596,7 @@ Root →Folder 1→File 1.1→[BACKTRACK]→Folder 1→File 1.2
 <section id="dls-algorithm-implementation" class="level3">
 <h3 class="anchored" data-anchor-id="dls-algorithm-implementation">DLS Algorithm Implementation</h3>
 <p>The following cell implements the Depth Limited Search (DLS) algorithm, which is a variant of Depth First Search (DFS) with a maximum search depth limit. The function <code>dls()</code> explores a graph from a given starting node, looking for a path to the target node. It limits the depth of the search and ensures that no node is revisited. The function returns the path if found, or <code>None</code> if no path is found within the given depth limit.</p>
-<div id="bd3e1774" class="cell" data-execution_count="1">
+<div id="94d49585" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to perform Depth Limited Search to find a path from start to target</span></span>
@@ -629,7 +633,7 @@ Root →Folder 1→File 1.1→[BACKTRACK]→Folder 1→File 1.2
 </details>
 </div>
 <p>In this cell, an example graph is represented as an adjacency list. The graph has nodes and edges, with each node pointing to its neighbors. The function <code>dls()</code> is called with a starting node, target node, and depth limit to search for a path. The result is printed to indicate whether a path was found or not within the specified depth limit.</p>
-<div id="0d60f1cf" class="cell" data-execution_count="2">
+<div id="59060583" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example graph represented as an adjacency list</span></span>

@@ -48,7 +48,7 @@ digraph ucs_graph {
   B -> C [label="2"];
   B -> D [label="5"];
   C -> D [label="1"];
-  rankdir="TB"; 
+  rankdir="LR"; 
   labelloc="b";
   label="UCS Example with Edge Costs";
 }
