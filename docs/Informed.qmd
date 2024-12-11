@@ -1,0 +1,22 @@
+---
+title: "Informed Search Algorithms"
+format:
+  html:
+    code-fold: true
+jupyter: python3
+page-navigation: true
+---
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-43XXVJQ0JD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-43XXVJQ0JD');
+</script>
+
+Informed search algorithms, better known as heuristic search algorithms, are a separate class of algorithms, that use heuristics (for simplicity, let’s say that it is a kind of additional information) to guide in the search space from the start node to the end node. Needless to say, they are in general, more efficient than uninformed search algorithms. Informed ones have prior knowledge that helps them to become the guiding force and prioritize which paths should be explored first based on their heuristic function. As we will see in this section, different informed algorithms have different heuristic functions. With that changes the methodology to reach the goal state as well. The major advantage is it solves complex problems by reducing the search space, depending on the need to explore. 
+
+Further, in this chapter, we will explore different informed search algorithms like A*, Iterative Deepening A*, Memory Bounded A*, Recursive Best First Search, Beam Search, Hill Climbing, and Genetic Algorithms. These algorithms differ in utilizing their unique heuristic functions, which we will surely discuss in their respective sections. However, with increased efficiency, informed search algorithms face a few challenges. Mostly, the need for an effective and accurate heuristic is ever-increasing, this may not always be available or easy to compute. But, surely there is great improvement in performance in terms of time and computational resources. 

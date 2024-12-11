@@ -26,6 +26,9 @@ website:
           - text: "Uniform Cost Search (UCS)"
             href: ucs.qmd
       - section: "Informed Search Algorithms"
+        contents:
+          - text: "Informed Search Overview"
+            href: informed.qmd
 
 theme:
   light: litera

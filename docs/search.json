@@ -31,69 +31,13 @@
     ]
   },
   {
-    "objectID": "iddfs.html",
-    "href": "iddfs.html",
-    "title": "IDDFS",
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Complete Guide to AI-SMPS",
     "section": "",
-    "text": "Iterative Deepening Depth First Search (IDDFS) is an algorithm that is designed to overcome the limitations of both BFS and DFS in trees. It operates by performing a DFS iteratively, while increasing the limit of the depth with each iteration. For instance, it first searches to depth=1, then restarts and searches to depth=2, followed by depth=3 and so on, until the goal state is found. Since IDDFS expands all nodes at a given depth before moving to deeper levels, it guarantees finding the shortest path 1.",
+    "text": "Table of Contents\n\nIntroduction\nUninformed Search\n\nBreadth-First Search (BFS)\nDepth-First Search (DFS)\nDepth Limited Search (DLS)\nIterative Deepening Depth First Search (IDDFS)\nUniform Cost Search (UCS)\n\nInformed Search",
     "crumbs": [
-      "Uninformed Search Algorithms",
-      "Iterative Deepening DFS (IDDFS)"
-    ]
-  },
-  {
-    "objectID": "iddfs.html#footnotes",
-    "href": "iddfs.html#footnotes",
-    "title": "IDDFS",
-    "section": "Footnotes",
-    "text": "Footnotes\n\n\nKorf, R. E. (1985). Depth-first iterative-deepening: An optimal admissible tree search. Artificial intelligence, 27(1), 97-109. Link↩︎",
-    "crumbs": [
-      "Uninformed Search Algorithms",
-      "Iterative Deepening DFS (IDDFS)"
-    ]
-  },
-  {
-    "objectID": "dfs.html",
-    "href": "dfs.html",
-    "title": "DFS",
-    "section": "",
-    "text": "Depth First Search (DFS), also called backtracking, can help one solve many problems in AI and Combinatorial Theory. Beginning at the Start State (Root Node), the algorithm traverses till the deepest end of each branch. When the deepest state (Node) is visited, it backtracks to its parent node and to traverse to the next deepest node. If there are no siblings, it backtracks and traverses to the deepest end of the neighboring branch. [Note:- A Node in a graph is also called a Vertex. In this paper, these terms would be used interchangeably. Remember, in the State Space Graph, each Node/Vertex represents a state.]\ndfs_graph\n\nDFS Traversal from Node 1\n\n\n1\n\n1\n\n\n\n2\n\n2\n\n\n\n1--2\n\n\n\n\n7\n\n7\n\n\n\n1--7\n\n\n\n\n8\n\n8\n\n\n\n1--8\n\n\n\n\n3\n\n3\n\n\n\n2--3\n\n\n\n\n4\n\n4\n\n\n\n3--4\n\n\n\n\n6\n\n6\n\n\n\n3--6\n\n\n\n\n5\n\n5\n\n\n\n4--5\n\n\n\n\n9\n\n9\n\n\n\n8--9\n\n\n\n\n10\n\n10\n\n\n\n8--10\n\n\n\n\n11\n\n11\n\n\n\n10--11\nLet there be a graph G which has a set of V vertices and a set of E edges. Thus, we can write :\n\\[ G = (V,E) \\]\nInitially, all the vertices of G are unexplored. One can start with a vertex of G and choose an edge to follow 1. This traversal would lead to a new node. We continue this procedure of visiting an unexplored vertex stemming out from the present one. Once we have exhausted all such vertices, we backtrack and find an edge from where an unreached vertex is available, only to repeat the process until we have traversed through all edges exactly once.\nFor each vertex, \\[ v \\in V, \\] We can have a bunch of, \\[ w \\in V, \\] such that, \\[ \\exists edge\\ \\] Between v and w - \\[ (v, w) \\in E. \\] We can construct a list of all such pairs of vertices, which is known as the Adjacency List. A set of such adjacency lists is called an Adjacency Structure for G.",
-    "crumbs": [
-      "Uninformed Search Algorithms",
-      "Depth-First Search (DFS)"
-    ]
-  },
-  {
-    "objectID": "dfs.html#footnotes",
-    "href": "dfs.html#footnotes",
-    "title": "DFS",
-    "section": "Footnotes",
-    "text": "Footnotes\n\n\nTarjan, R. (1972). Depth-first search and linear graph algorithms. SIAM journal on computing, 1(2), 146-160. Link↩︎",
-    "crumbs": [
-      "Uninformed Search Algorithms",
-      "Depth-First Search (DFS)"
-    ]
-  },
-  {
-    "objectID": "bfs.html",
-    "href": "bfs.html",
-    "title": "BFS",
-    "section": "",
-    "text": "Breadth First Search (BFS) is an approach that is used to travel through a graph systematically. BFS explores all the neighbours of a Node (State) prior to moving to the next state. It ensures that all nodes at the same depth are visited before moving to the next deeper layer. BFS often is preferred to find shortest paths in an unweighted graph.\nLet there be a graph G which has a set of V vertices and a set of E edges. Thus, we can write:\n\\[ G = (V,E) \\]\nFirstly, all the vertices of G are unexplored. BFS begins with a chosen vertex and explores all its neighbours on the same depth. Further it moves to the neighbours of those vertices, repeating this process until all reachable vertices have been visited. For each vertex, \\[ v \\in V, \\] We can have a bunch of \\[ w \\in V, \\] such that \\[ \\exists edge\\ \\] Between v and w, \\[ (v, w) \\in E. \\] These relationships can be represented using an Adjacency List. 1,2 When it comes to implementation, BFS is implemented using Queue:",
-    "crumbs": [
-      "Uninformed Search Algorithms",
-      "Breadth-First Search (BFS)"
-    ]
-  },
-  {
-    "objectID": "bfs.html#footnotes",
-    "href": "bfs.html#footnotes",
-    "title": "BFS",
-    "section": "Footnotes",
-    "text": "Footnotes\n\n\nChapter 14 - BFS, CMU Notes Link↩︎\nPresentation, Algorithm Design and Applications, by M. T. Goodrich and R. Tamassia, Wiley, 2015 Link↩︎",
-    "crumbs": [
-      "Uninformed Search Algorithms",
-      "Breadth-First Search (BFS)"
+      "Index"
     ]
   },
   {
@@ -119,13 +63,80 @@
     ]
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Complete Guide to AI-SMPS",
+    "objectID": "bfs.html",
+    "href": "bfs.html",
+    "title": "BFS",
     "section": "",
-    "text": "Table of Contents\n\nIntroduction\nUninformed Search\n\nBreadth-First Search (BFS)\nDepth-First Search (DFS)\nDepth Limited Search (DLS)\nIterative Deepening Depth First Search (IDDFS)\nUniform Cost Search (UCS)",
+    "text": "Breadth First Search (BFS) is an approach that is used to travel through a graph systematically. BFS explores all the neighbours of a Node (State) prior to moving to the next state. It ensures that all nodes at the same depth are visited before moving to the next deeper layer. BFS often is preferred to find shortest paths in an unweighted graph.\nLet there be a graph G which has a set of V vertices and a set of E edges. Thus, we can write:\n\\[ G = (V,E) \\]\nFirstly, all the vertices of G are unexplored. BFS begins with a chosen vertex and explores all its neighbours on the same depth. Further it moves to the neighbours of those vertices, repeating this process until all reachable vertices have been visited. For each vertex, \\[ v \\in V, \\] We can have a bunch of \\[ w \\in V, \\] such that \\[ \\exists edge\\ \\] Between v and w, \\[ (v, w) \\in E. \\] These relationships can be represented using an Adjacency List. 1,2 When it comes to implementation, BFS is implemented using Queue:",
     "crumbs": [
-      "Index"
+      "Uninformed Search Algorithms",
+      "Breadth-First Search (BFS)"
+    ]
+  },
+  {
+    "objectID": "bfs.html#footnotes",
+    "href": "bfs.html#footnotes",
+    "title": "BFS",
+    "section": "Footnotes",
+    "text": "Footnotes\n\n\nChapter 14 - BFS, CMU Notes Link↩︎\nPresentation, Algorithm Design and Applications, by M. T. Goodrich and R. Tamassia, Wiley, 2015 Link↩︎",
+    "crumbs": [
+      "Uninformed Search Algorithms",
+      "Breadth-First Search (BFS)"
+    ]
+  },
+  {
+    "objectID": "dfs.html",
+    "href": "dfs.html",
+    "title": "DFS",
+    "section": "",
+    "text": "Depth First Search (DFS), also called backtracking, can help one solve many problems in AI and Combinatorial Theory. Beginning at the Start State (Root Node), the algorithm traverses till the deepest end of each branch. When the deepest state (Node) is visited, it backtracks to its parent node and to traverse to the next deepest node. If there are no siblings, it backtracks and traverses to the deepest end of the neighboring branch. [Note:- A Node in a graph is also called a Vertex. In this paper, these terms would be used interchangeably. Remember, in the State Space Graph, each Node/Vertex represents a state.]\ndfs_graph\n\nDFS Traversal from Node 1\n\n\n1\n\n1\n\n\n\n2\n\n2\n\n\n\n1--2\n\n\n\n\n7\n\n7\n\n\n\n1--7\n\n\n\n\n8\n\n8\n\n\n\n1--8\n\n\n\n\n3\n\n3\n\n\n\n2--3\n\n\n\n\n4\n\n4\n\n\n\n3--4\n\n\n\n\n6\n\n6\n\n\n\n3--6\n\n\n\n\n5\n\n5\n\n\n\n4--5\n\n\n\n\n9\n\n9\n\n\n\n8--9\n\n\n\n\n10\n\n10\n\n\n\n8--10\n\n\n\n\n11\n\n11\n\n\n\n10--11\nLet there be a graph G which has a set of V vertices and a set of E edges. Thus, we can write :\n\\[ G = (V,E) \\]\nInitially, all the vertices of G are unexplored. One can start with a vertex of G and choose an edge to follow 1. This traversal would lead to a new node. We continue this procedure of visiting an unexplored vertex stemming out from the present one. Once we have exhausted all such vertices, we backtrack and find an edge from where an unreached vertex is available, only to repeat the process until we have traversed through all edges exactly once.\nFor each vertex, \\[ v \\in V, \\] We can have a bunch of, \\[ w \\in V, \\] such that, \\[ \\exists edge\\ \\] Between v and w - \\[ (v, w) \\in E. \\] We can construct a list of all such pairs of vertices, which is known as the Adjacency List. A set of such adjacency lists is called an Adjacency Structure for G.",
+    "crumbs": [
+      "Uninformed Search Algorithms",
+      "Depth-First Search (DFS)"
+    ]
+  },
+  {
+    "objectID": "dfs.html#footnotes",
+    "href": "dfs.html#footnotes",
+    "title": "DFS",
+    "section": "Footnotes",
+    "text": "Footnotes\n\n\nTarjan, R. (1972). Depth-first search and linear graph algorithms. SIAM journal on computing, 1(2), 146-160. Link↩︎",
+    "crumbs": [
+      "Uninformed Search Algorithms",
+      "Depth-First Search (DFS)"
+    ]
+  },
+  {
+    "objectID": "iddfs.html",
+    "href": "iddfs.html",
+    "title": "IDDFS",
+    "section": "",
+    "text": "Iterative Deepening Depth First Search (IDDFS) is an algorithm that is designed to overcome the limitations of both BFS and DFS in trees. It operates by performing a DFS iteratively, while increasing the limit of the depth with each iteration. For instance, it first searches to depth=1, then restarts and searches to depth=2, followed by depth=3 and so on, until the goal state is found. Since IDDFS expands all nodes at a given depth before moving to deeper levels, it guarantees finding the shortest path 1.",
+    "crumbs": [
+      "Uninformed Search Algorithms",
+      "Iterative Deepening DFS (IDDFS)"
+    ]
+  },
+  {
+    "objectID": "iddfs.html#footnotes",
+    "href": "iddfs.html#footnotes",
+    "title": "IDDFS",
+    "section": "Footnotes",
+    "text": "Footnotes\n\n\nKorf, R. E. (1985). Depth-first iterative-deepening: An optimal admissible tree search. Artificial intelligence, 27(1), 97-109. Link↩︎",
+    "crumbs": [
+      "Uninformed Search Algorithms",
+      "Iterative Deepening DFS (IDDFS)"
+    ]
+  },
+  {
+    "objectID": "informed.html",
+    "href": "informed.html",
+    "title": "Informed Search Algorithms",
+    "section": "",
+    "text": "Informed search algorithms, better known as heuristic search algorithms, are a separate class of algorithms, that use heuristics (for simplicity, let’s say that it is a kind of additional information) to guide in the search space from the start node to the end node. Needless to say, they are in general, more efficient than uninformed search algorithms. Informed ones have prior knowledge that helps them to become the guiding force and prioritize which paths should be explored first based on their heuristic function. As we will see in this section, different informed algorithms have different heuristic functions. With that changes the methodology to reach the goal state as well. The major advantage is it solves complex problems by reducing the search space, depending on the need to explore.\nFurther, in this chapter, we will explore different informed search algorithms like A, Iterative Deepening A, Memory Bounded A*, Recursive Best First Search, Beam Search, Hill Climbing, and Genetic Algorithms. These algorithms differ in utilizing their unique heuristic functions, which we will surely discuss in their respective sections. However, with increased efficiency, informed search algorithms face a few challenges. Mostly, the need for an effective and accurate heuristic is ever-increasing, this may not always be available or easy to compute. But, surely there is great improvement in performance in terms of time and computational resources.",
+    "crumbs": [
+      "Informed Search Algorithms",
+      "Informed Search Overview"
     ]
   },
   {

@@ -205,8 +205,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
-      <span class="sidebar-item-text sidebar-link text-start">
- <span class="menu-text">Informed Search Algorithms</span></span>
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Informed Search Algorithms</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./informed.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Informed Search Overview</span></a>
+  </div>
+</li>
+      </ul>
   </li>
     </ul>
     </div>
@@ -369,7 +382,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="iddfs-algorithm-implementation" class="level3">
 <h3 class="anchored" data-anchor-id="iddfs-algorithm-implementation">IDDFS Algorithm Implementation</h3>
 <p>The first code cell defines the <code>dls()</code> function, which is used in the IDDFS algorithm. It implements the Depth Limited Search (DLS) technique, where a search is conducted up to a specific depth limit. The function explores neighbors of the current node and recurses with a reduced depth limit. If a path to the target node is found, it is returned; otherwise, the function continues the search until the depth limit is reached or a path is found.</p>
-<div id="cf0e251c" class="cell" data-execution_count="1">
+<div id="5462fa2b" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Depth Limited Search (DLS) function used by IDDFS</span></span>
@@ -404,7 +417,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 </div>
 <p>The second code cell implements the Iterative Deepening Depth First Search (IDDFS) algorithm. This approach repeatedly performs a depth-limited search (<code>dls()</code>) with increasing depth limits, starting from 0 and going upwards. After each search at a given depth, if the target node is found, the path is returned. If not, the depth limit is incremented, and the search continues at the next depth level, ensuring the algorithm eventually finds the target if it’s reachable.</p>
-<div id="16ea9dc0" class="cell" data-execution_count="2">
+<div id="403b8787" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Iterative Deepening DFS (IDDFS) function</span></span>
@@ -424,7 +437,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 </div>
 <p>In the third code cell, an example graph is represented as an adjacency list, with nodes connected by edges. The <code>iddfs()</code> function is called to find a path from the starting node to the target node. The result is printed, showing whether a path was found and the corresponding path, or indicating that no path was found.</p>
-<div id="7c6d50af" class="cell" data-execution_count="3">
+<div id="6cd775a4" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example graph represented as an adjacency list</span></span>
