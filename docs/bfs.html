@@ -248,6 +248,24 @@ window.Quarto = {
  <span class="menu-text">Informed Search Overview</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./astar.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">A*</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./idastar.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Iterative Deepening A* (IDA*)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./mbastar.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Memory Bounded A* (MBA*)</span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -435,7 +453,7 @@ window.Quarto = {
 <section id="bfs-algorithm-implementation" class="level3">
 <h3 class="anchored" data-anchor-id="bfs-algorithm-implementation">BFS Algorithm Implementation</h3>
 <p>First, we import the required libraries. The <code>deque</code> is imported from the <code>collections</code> module, which is a specialized list type that supports fast appends and pops from both ends. This is ideal for implementing the BFS (Breadth-First Search) algorithm, as BFS needs to efficiently manage the queue of nodes to visit.</p>
-<div id="50a181b2" class="cell" data-execution_count="1">
+<div id="0cc3638a" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># You are given an undirected graph represented as an adjacency list. You need to find the shortest path from a starting node to a target node in the graph using the BFS algorithm.</span></span>
@@ -444,7 +462,7 @@ window.Quarto = {
 </details>
 </div>
 <p>Then, we define the <code>bfs</code> function to implement the Breadth-First Search algorithm. The function takes a graph (represented as an adjacency list), a start node, and a target node as arguments. It searches for the shortest path between the start and target nodes using BFS. If the start and target nodes are the same, it immediately returns the path consisting only of the start node.</p>
-<div id="e6b34f88" class="cell" data-execution_count="2">
+<div id="37a37c17" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># function to perform BFS and find the shortest path</span></span>
@@ -484,7 +502,7 @@ window.Quarto = {
 </details>
 </div>
 <p>In this step, we define a simple graph using an adjacency list and set the start and target nodes. The graph has nodes labeled 0, 1, 2, and 3, and edges between them. The <code>bfs</code> function is then called with the graph, starting node <code>0</code>, and target node <code>3</code>. Finally, the shortest path found by BFS is printed.</p>
-<div id="182f83c8" class="cell" data-execution_count="3">
+<div id="ec6a6a7b" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Adjacency List</span></span>

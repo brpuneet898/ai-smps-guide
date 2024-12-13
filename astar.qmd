@@ -1,0 +1,157 @@
+---
+title: "A*"
+format:
+  html:
+    code-fold: true
+jupyter: python3
+page-navigation: true
+---
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-43XXVJQ0JD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-43XXVJQ0JD');
+</script>
+
+A* (or A-Star) algorithm is one of the most popular techniques for solving problems based on path-finding and graph traversal. Although it is an extension (improvement) of the famous Dijkstra’s algorithm, unlike the latter, A* uses heuristics to estimate the cost from a node to the goal. This optimizes the search process while bringing down computational rigor. [^1]
+
+### Pseudocode for A* Algorithm
+
+```plaintext
+1. function AStar(graph, start, target):
+2.     openSet = {start}  
+3.     cameFrom = {}  
+4.     gScore[start] = 0 
+5.     fScore[start] = heuristic(start, target)  
+6.     while openSet is not empty:
+7.         current = node in openSet with the lowest fScore
+8.         if current == target, reconstruct path from cameFrom and return it
+9.         remove current from openSet
+10.         for each neighbor of current:
+11.             tentative_gScore = gScore[current] + cost(current, neighbor)
+12.             if neighbor not in gScore or tentative_gScore < gScore[neighbor]:
+13.                 cameFrom[neighbor] = current
+14.                 gScore[neighbor] = tentative_gScore
+15.                 fScore[neighbor] = gScore[neighbor] + heuristic(neighbor, target)
+16.                 add neighbor to openSet if not already in it
+17.     return failure (no path found)
+18. end function
+```
+
+Let us consider a node that is the start state while another node exists which gives the goal state. We also have an open list which contains all possible nodes between start state and goal state.
+
+The total estimated cost of traversal is represented by the function f(n) where n is the current node. For any n, it is calculated as: 
+
+$$ f(n)= g(n)+h(n) $$
+
+Here, g(n) is the actual cost of the solution found from the start state to node n. This cost is precise and is the sum of all individual edge weights till the current node. Thus, for a path from start state $(n_0)$ to current node $(n_c)$, g(n) will be given as:
+
+$$ \sum_{i=0}^{c-1} \text{weight}(n_i, n_{i+1}) $$
+
+On the other hand, the Heuristic Function h(n) gives an estimated cost from the current node n to the goal state. Usually, this is computed using the Manhattan Distance, and at times, using the Euclidean Distance:
+
+- \( h(n) = |x_1 - x_2| + |y_1 - y_2| \) is known as the Manhattan Distance
+- \( h(n) = (x_1 - x_2)^2 + (y_1 - y_2)^2 \) is the well-known Euclidean Distance
+
+A search algorithm is said to be admissible if it is guaranteed to return an optimal solution if one exists. In case of A*, we have : 
+
+$$ f^*(n)= g^*(n)+h^*(n) $$
+
+Where g*(n) is the optimal cost of a path from start state to the current node, h*(n) is the optimal cost of a path from node n to goal state, and f*(n) is the optimal cost of a path from start state to goal state via node n. For any given node n, the following condition must be satisfied:
+
+$$ \( g^*(n) \leq g(n) \) $$
+$$ \( h(n) \leq h^*(n) \) $$
+
+### A* Algorithm Implementation
+
+This snippet initializes the A* algorithm by setting up a priority queue (`open_set`) to store nodes based on their total estimated cost (`f = g + h`). It uses the Manhattan distance as a heuristic function to estimate the cost of moving from the current node to the target. The priority queue helps prioritize nodes with lower `f` values, facilitating an efficient search for the shortest path.
+
+```{python}
+# You are given a grid with cells that have a cost of moving through them. The goal is to find the shortest path from a starting point to a target point using the A* algorithm.
+
+from heapq import heappop, heappush
+```
+
+The `heuristic` function calculates the Manhattan distance between two points, which is the sum of the absolute differences in their x and y coordinates. This heuristic is admissible for grid-based pathfinding, as it never overestimates the true cost of the shortest path. It provides an estimate of how far the target is from a given node, guiding the A* algorithm toward the optimal path.
+
+```{python}
+# Function to calculate the Manhattan distance heuristic (h) between two points
+def heuristic(a, b):
+    return abs(a[0] - b[0]) + abs(a[1] - b[1])
+```
+
+This function implements the A* algorithm to find the shortest path on a grid. It uses a priority queue to explore nodes, expanding in order of lowest `f` (total cost). For each node, it evaluates neighboring cells, computes tentative costs, and updates the best path if a lower-cost route is found. If the target is reached, the path is reconstructed from the `came_from` dictionary. If no path exists, it returns an empty list.
+
+```{python}
+# Function to perform A* search and find the shortest path
+def astar(grid, start, target):
+    # Create a priority queue to store nodes to visit, prioritized by f = g + h
+    open_set = []
+    heappush(open_set, (0 + heuristic(start, target), 0, start))  # (f, g, node)
+    
+    # Dictionary to store the cost of the path to each node (g value)
+    g_costs = {start: 0}
+    
+    # Dictionary to store the parent of each node to reconstruct the path later
+    came_from = {}
+    
+    # Directions for moving in the grid: up, down, left, right
+    directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+    
+    while open_set:
+        # Get the node with the lowest f value from the priority queue
+        _, g, current = heappop(open_set)
+
+        # If we've reached the target, reconstruct and return the path
+        if current == target:
+            path = []
+            while current in came_from:
+                path.append(current)
+                current = came_from[current]
+            path.append(start)
+            path.reverse()
+            return path
+        
+        # Explore each neighbor
+        for direction in directions:
+            neighbor = (current[0] + direction[0], current[1] + direction[1])
+            
+            # Skip out-of-bounds neighbors
+            if (0 <= neighbor[0] < len(grid)) and (0 <= neighbor[1] < len(grid[0])):
+                # Calculate the tentative g score for the neighbor
+                tentative_g = g + grid[neighbor[0]][neighbor[1]]
+                
+                # If the neighbor hasn't been visited or we've found a better path
+                if neighbor not in g_costs or tentative_g < g_costs[neighbor]:
+                    g_costs[neighbor] = tentative_g
+                    f_score = tentative_g + heuristic(neighbor, target)
+                    heappush(open_set, (f_score, tentative_g, neighbor))
+                    came_from[neighbor] = current
+    
+    # If no path is found, return an empty list
+    return []
+```
+
+The final snippet demonstrates the A* algorithm on a simple 4x4 grid, where each cell has a movement cost. The start point is at the top-left corner (`0, 0`), and the target is at the bottom-right corner (`3, 3`). The function `astar()` is called to find the shortest path, and the resulting path is printed, showing the optimal route based on the given grid's costs.
+
+```{python}
+# Example grid (cost to move through each cell)
+grid = [
+    [1, 2, 1, 10],
+    [1, 2, 1, 1],
+    [1, 1, 1, 1],
+    [10, 1, 1, 1]
+]
+
+start_node = (0, 0)  # Top-left corner
+target_node = (3, 3)  # Bottom-right corner
+shortest_path = astar(grid, start_node, target_node)
+
+print("Shortest path from", start_node, "to", target_node, ":", shortest_path)
+```
+
+[^1]: Hart, P. E., Nilsson, N. J., & Raphael, B. (1968). A formal basis for the heuristic determination of minimum cost paths. IEEE transactions on Systems Science and Cybernetics, 4(2), 100-107. [Link](https://ieeexplore.ieee.org/abstract/document/4082128)

@@ -26,4 +26,7 @@ page-navigation: true
   - [Depth Limited Search (DLS)](dls.qmd)
   - [Iterative Deepening Depth First Search (IDDFS)](iddfs.qmd)
   - [Uniform Cost Search (UCS)](ucs.qmd)
-- [Informed Search](Informed.qmd)
+- [Informed Search](informed.qmd)
+  - [A*](astar.qmd)
+  - [Iterative Deepening A* (IDA*)](idastar.qmd)
+  - [Memory Bounded A* (MBA*)](mbastar.qmd)

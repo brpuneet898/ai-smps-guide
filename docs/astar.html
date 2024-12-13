@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>DLS</title>
+<title>A*</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -64,8 +64,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./iddfs.html" rel="next">
-<link href="./dfs.html" rel="prev">
+<link href="./idastar.html" rel="next">
+<link href="./informed.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -105,6 +105,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -117,7 +146,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./uninformed.html">Uninformed Search Algorithms</a></li><li class="breadcrumb-item"><a href="./dls.html">Depth Limited Search (DLS)</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./informed.html">Informed Search Algorithms</a></li><li class="breadcrumb-item"><a href="./astar.html">A*</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -186,7 +215,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./dls.html" class="sidebar-item-text sidebar-link active">
+  <a href="./dls.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Depth Limited Search (DLS)</span></a>
   </div>
 </li>
@@ -221,7 +250,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./astar.html" class="sidebar-item-text sidebar-link">
+  <a href="./astar.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">A*</span></a>
   </div>
 </li>
@@ -248,9 +277,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./uninformed.html">Uninformed Search Algorithms</a></li><li class="breadcrumb-item"><a href="./dls.html">Depth Limited Search (DLS)</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./informed.html">Informed Search Algorithms</a></li><li class="breadcrumb-item"><a href="./astar.html">A*</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">DLS</h1>
+<h1 class="title">A*</h1>
 </div>
 
 
@@ -276,429 +305,135 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
   gtag('config', 'G-43XXVJQ0JD');
 </script>
-<p>Depth Limited Search (DLS) is a modified version of DFS. When it comes to DLS, the search is limited to specific depth L. At that particular depth, the nodes are considered to have no successors. This, in turn, takes care of the case where DFS might end up searching indefinitely in case the search space spans infinitely or is too large to search in a cost efficient way. DLS starts at the root node and explores all nodes at the current depth before moving on to the next level. If the Goal State is not attained in the current depth, the search shall continue to the next level until either the Goal State is found or the depth limit is reached <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
-<section id="pseudocode-for-dls-algorithm" class="level3">
-<h3 class="anchored" data-anchor-id="pseudocode-for-dls-algorithm">Pseudocode for DLS Algorithm</h3>
-<pre class="plaintext"><code>1. function DLS(graph, start, target, limit, path=[], visited=set()):
-2.     add start to path
-3.     add start to visited
-4.     if start == target, return path
-5.     if limit == 0, return None
-6.     for each neighbour of start:
-7.         if neighbour not in visited:
-8.             result = DLS(graph, neighbour, target, limit - 1, path, visited)
-9.             if result is not None, return result
-10.    return None</code></pre>
-<p>Let us understand using an example, consider the following graph:</p>
-<div class="cell" data-layout-align="default">
-<div class="cell-output-display">
-<div>
-<p></p><figure class="figure"><p></p>
-<div>
-<svg width="672" height="480" viewbox="0.00 0.00 206.02 284.86" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none">
-<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280.86)">
-<title>dls_graph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-280.86 202.02,-280.86 202.02,4 -4,4"></polygon>
-<text text-anchor="middle" x="99.01" y="-8.2" font-family="Times,serif" font-size="14.00">DLS Traversal</text>
-<!-- A -->
-<g id="node1" class="node">
-<title>A</title>
-<ellipse fill="none" stroke="black" cx="99.01" cy="-258.85" rx="18.02" ry="18.02"></ellipse>
-<text text-anchor="middle" x="99.01" y="-254.65" font-family="Times,serif" font-size="14.00">A</text>
-</g>
-<!-- B -->
-<g id="node2" class="node">
-<title>B</title>
-<ellipse fill="none" stroke="black" cx="72.01" cy="-186.84" rx="18" ry="18"></ellipse>
-<text text-anchor="middle" x="72.01" y="-182.64" font-family="Times,serif" font-size="14.00">B</text>
-</g>
-<!-- A&#45;&#45;B -->
-<g id="edge1" class="edge">
-<title>A--B</title>
-<path fill="none" stroke="black" d="M92.75,-241.61C88.39,-230.3 82.59,-215.28 78.24,-203.99"></path>
-</g>
-<!-- C -->
-<g id="node3" class="node">
-<title>C</title>
-<ellipse fill="none" stroke="black" cx="126.01" cy="-186.84" rx="18" ry="18"></ellipse>
-<text text-anchor="middle" x="126.01" y="-182.64" font-family="Times,serif" font-size="14.00">C</text>
-</g>
-<!-- A&#45;&#45;C -->
-<g id="edge2" class="edge">
-<title>A--C</title>
-<path fill="none" stroke="black" d="M105.27,-241.61C109.63,-230.3 115.43,-215.28 119.78,-203.99"></path>
-</g>
-<!-- D -->
-<g id="node4" class="node">
-<title>D</title>
-<ellipse fill="none" stroke="black" cx="18.01" cy="-114.83" rx="18.02" ry="18.02"></ellipse>
-<text text-anchor="middle" x="18.01" y="-110.63" font-family="Times,serif" font-size="14.00">D</text>
-</g>
-<!-- B&#45;&#45;D -->
-<g id="edge3" class="edge">
-<title>B--D</title>
-<path fill="none" stroke="black" d="M61.34,-172.01C51.87,-159.74 38.12,-141.9 28.66,-129.63"></path>
-</g>
-<!-- E -->
-<g id="node5" class="node">
-<title>E</title>
-<ellipse fill="none" stroke="black" cx="72.01" cy="-114.83" rx="18" ry="18"></ellipse>
-<text text-anchor="middle" x="72.01" y="-110.63" font-family="Times,serif" font-size="14.00">E</text>
-</g>
-<!-- B&#45;&#45;E -->
-<g id="edge4" class="edge">
-<title>B--E</title>
-<path fill="none" stroke="black" d="M72.01,-168.54C72.01,-157.68 72.01,-143.75 72.01,-132.94"></path>
-</g>
-<!-- F -->
-<g id="node6" class="node">
-<title>F</title>
-<ellipse fill="none" stroke="black" cx="126.01" cy="-114.83" rx="18" ry="18"></ellipse>
-<text text-anchor="middle" x="126.01" y="-110.63" font-family="Times,serif" font-size="14.00">F</text>
-</g>
-<!-- C&#45;&#45;F -->
-<g id="edge5" class="edge">
-<title>C--F</title>
-<path fill="none" stroke="black" d="M126.01,-168.54C126.01,-157.68 126.01,-143.75 126.01,-132.94"></path>
-</g>
-<!-- G -->
-<g id="node7" class="node">
-<title>G</title>
-<ellipse fill="none" stroke="black" cx="180.01" cy="-114.83" rx="18.02" ry="18.02"></ellipse>
-<text text-anchor="middle" x="180.01" y="-110.63" font-family="Times,serif" font-size="14.00">G</text>
-</g>
-<!-- C&#45;&#45;G -->
-<g id="edge6" class="edge">
-<title>C--G</title>
-<path fill="none" stroke="black" d="M136.68,-172.01C146.15,-159.74 159.9,-141.9 169.36,-129.63"></path>
-</g>
-<!-- H -->
-<g id="node8" class="node">
-<title>H</title>
-<ellipse fill="none" stroke="black" cx="18.01" cy="-42.81" rx="18.02" ry="18.02"></ellipse>
-<text text-anchor="middle" x="18.01" y="-38.61" font-family="Times,serif" font-size="14.00">H</text>
-</g>
-<!-- D&#45;&#45;H -->
-<g id="edge7" class="edge">
-<title>D--H</title>
-<path fill="none" stroke="black" d="M18.01,-96.52C18.01,-85.67 18.01,-71.74 18.01,-60.92"></path>
-</g>
-</g>
-</svg>
-</div>
-<p></p></figure><p></p>
-</div>
-</div>
-</div>
-<p>DLS shall explore all the nodes level-by-level and terminate once it has reached L. Let us consider L to be 2 in this case.</p>
+<p>A* (or A-Star) algorithm is one of the most popular techniques for solving problems based on path-finding and graph traversal. Although it is an extension (improvement) of the famous Dijkstra’s algorithm, unlike the latter, A* uses heuristics to estimate the cost from a node to the goal. This optimizes the search process while bringing down computational rigor. <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<section id="pseudocode-for-a-algorithm" class="level3">
+<h3 class="anchored" data-anchor-id="pseudocode-for-a-algorithm">Pseudocode for A* Algorithm</h3>
+<pre class="plaintext"><code>1. function AStar(graph, start, target):
+2.     openSet = {start}  
+3.     cameFrom = {}  
+4.     gScore[start] = 0 
+5.     fScore[start] = heuristic(start, target)  
+6.     while openSet is not empty:
+7.         current = node in openSet with the lowest fScore
+8.         if current == target, reconstruct path from cameFrom and return it
+9.         remove current from openSet
+10.         for each neighbor of current:
+11.             tentative_gScore = gScore[current] + cost(current, neighbor)
+12.             if neighbor not in gScore or tentative_gScore &lt; gScore[neighbor]:
+13.                 cameFrom[neighbor] = current
+14.                 gScore[neighbor] = tentative_gScore
+15.                 fScore[neighbor] = gScore[neighbor] + heuristic(neighbor, target)
+16.                 add neighbor to openSet if not already in it
+17.     return failure (no path found)
+18. end function</code></pre>
+<p>Let us consider a node that is the start state while another node exists which gives the goal state. We also have an open list which contains all possible nodes between start state and goal state.</p>
+<p>The total estimated cost of traversal is represented by the function f(n) where n is the current node. For any n, it is calculated as:</p>
+<p><span class="math display">\[ f(n)= g(n)+h(n) \]</span></p>
+<p>Here, g(n) is the actual cost of the solution found from the start state to node n.&nbsp;This cost is precise and is the sum of all individual edge weights till the current node. Thus, for a path from start state <span class="math inline">\((n_0)\)</span> to current node <span class="math inline">\((n_c)\)</span>, g(n) will be given as:</p>
+<p><span class="math display">\[ \sum_{i=0}^{c-1} \text{weight}(n_i, n_{i+1}) \]</span></p>
+<p>On the other hand, the Heuristic Function h(n) gives an estimated cost from the current node n to the goal state. Usually, this is computed using the Manhattan Distance, and at times, using the Euclidean Distance:</p>
 <ul>
-<li>
-<strong>Step 1:</strong> Start at the root node, A in this case (Depth=0)
-</li>
-<ul>
-<li>
-Check if A is the goal state. If not, move to its children
-</li>
+<li>( h(n) = |x_1 - x_2| + |y_1 - y_2| ) is known as the Manhattan Distance</li>
+<li>( h(n) = (x_1 - x_2)^2 + (y_1 - y_2)^2 ) is the well-known Euclidean Distance</li>
 </ul>
-<li>
-<strong>Step 2:</strong> Move to the first child B (Depth=1) [Choice between to nodes on the same level is usually based on alphabetic precedence]
-</li>
-<ul>
-<li>
-Check if B is the goal state. If not, move to its children
-</li>
-</ul>
-<li>
-<strong>Step 3:</strong> Move to D, the first child (Depth=2)
-</li>
-<ul>
-<li>
-D is within L=2. If D is not the goal state, backtrack to B and move to another child.
-</li>
-</ul>
-<li>
-<strong>Step 4:</strong> Move to E, the second child of B (Depth=2)
-</li>
-<ul>
-<li>
-E is within L=2. If E is not the goal state, backtrack to B, then to A, and move to another child of A
-</li>
-</ul>
-<li>
-<strong>Step 5:</strong> Move to C, the second child of A (Depth=1)
-</li>
-<ul>
-<li>
-If C is not the goal state, explore its children=n
-</li>
-</ul>
-<li>
-<strong>Step 6:</strong> Move to F, the first child of C (Depth=2)
-</li>
-<ul>
-<li>
-F is within L=2. If it is not the goal state, backtrack to C and move to another child
-</li>
-</ul>
-<li>
-<strong>Step 7:</strong> Move to G, the second child of C (Depth=2)
-</li>
-<ul>
-<li>
-G is within L=2. If it is not the goal state, backtrack to C, then to A
-</li>
-</ul>
-<li>
-<strong>Step 8:</strong> Traversal Terminates
-</li>
-</ul>
-<p>After exploring all the nodes up to depth=2, the algorithm terminates. Node H is not explored because L=2 and Depth(H)&gt;2. Thus the order of traversal for the above example is A →B→D→E→C→F→G. DLS is also implemented using Stacks in the following way:</p>
-<ul>
-<li>
-<strong>Step 1:</strong> Take a stack with size equal to the total number of vertices in the graph.
-</li>
-<li>
-<strong>Step 2:</strong> Take any vertex as the starting point for traversal. Push that vertex to the stack, along with its depth, once visited.
-</li>
-<li>
-<strong>Step 3:</strong> Go to any of the non-visited adjacent vertices of the current vertex, which is on the top of the stack, provided its depth is within L, and push the new vertex on the top of the stack.
-</li>
-<li>
-<strong>Step 4:</strong> Keep repeating Step 3 till there are no vertices which can be visited from the top one.
-</li>
-<li>
-<strong>Step 5:</strong> If no further vertices can be visited, due to depth limit or no adjacency, backtrack and pop one vertex from the stack.
-</li>
-<li>
-<strong>Step 6:</strong> Repeat Step 3,4, and 5 until the stack is empty.
-</li>
-</ul>
-<p>Let us visualise DLS with an example. File Systems are one of the key elements of any modern computational device for them to operate smoothly. Such file systems can be represented through directory trees wherein DLS can be applied to search files up to a specific depth. Consider a case where the user wants to search a specific file but is only interested in doing so till a certain depth, L=2.</p>
-<div class="cell" data-layout-align="default">
-<div class="cell-output-display">
-<div>
-<p></p><figure class="figure"><p></p>
-<div>
-<svg width="672" height="480" viewbox="0.00 0.00 557.26 394.85" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none">
-<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 390.85)">
-<title>dls_graph2</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-390.85 553.26,-390.85 553.26,4 -4,4"></polygon>
-<text text-anchor="middle" x="274.63" y="-8.2" font-family="Times,serif" font-size="14.00">DLS Example using File System Heirarchy</text>
-<!-- Root -->
-<g id="node1" class="node">
-<title>Root</title>
-<ellipse fill="none" stroke="black" cx="230.13" cy="-357.03" rx="29.64" ry="29.64"></ellipse>
-<text text-anchor="middle" x="230.13" y="-352.83" font-family="Times,serif" font-size="14.00">Root</text>
-</g>
-<!-- Folder1 -->
-<g id="node2" class="node">
-<title>Folder1</title>
-<ellipse fill="none" stroke="black" cx="130.13" cy="-250.14" rx="41.16" ry="41.16"></ellipse>
-<text text-anchor="middle" x="130.13" y="-245.94" font-family="Times,serif" font-size="14.00">Folder1</text>
-</g>
-<!-- Root&#45;&gt;Folder1 -->
-<g id="edge1" class="edge">
-<title>Root-&gt;Folder1</title>
-<path fill="none" stroke="black" d="M209.89,-334.81C197.14,-321.43 180.33,-303.8 165.43,-288.17"></path>
-<polygon fill="black" stroke="black" points="167.73,-285.5 158.29,-280.68 162.66,-290.33 167.73,-285.5"></polygon>
-</g>
-<!-- Folder2 -->
-<g id="node3" class="node">
-<title>Folder2</title>
-<ellipse fill="none" stroke="black" cx="230.13" cy="-250.14" rx="41.16" ry="41.16"></ellipse>
-<text text-anchor="middle" x="230.13" y="-245.94" font-family="Times,serif" font-size="14.00">Folder2</text>
-</g>
-<!-- Root&#45;&gt;Folder2 -->
-<g id="edge2" class="edge">
-<title>Root-&gt;Folder2</title>
-<path fill="none" stroke="black" d="M230.13,-327.09C230.13,-319.16 230.13,-310.32 230.13,-301.56"></path>
-<polygon fill="black" stroke="black" points="233.63,-301.37 230.13,-291.37 226.63,-301.37 233.63,-301.37"></polygon>
-</g>
-<!-- Folder3 -->
-<g id="node4" class="node">
-<title>Folder3</title>
-<ellipse fill="none" stroke="black" cx="374.13" cy="-250.14" rx="41.16" ry="41.16"></ellipse>
-<text text-anchor="middle" x="374.13" y="-245.94" font-family="Times,serif" font-size="14.00">Folder3</text>
-</g>
-<!-- Root&#45;&gt;Folder3 -->
-<g id="edge3" class="edge">
-<title>Root-&gt;Folder3</title>
-<path fill="none" stroke="black" d="M253.91,-338.71C275.3,-323.13 307.19,-299.9 332.75,-281.28"></path>
-<polygon fill="black" stroke="black" points="335.13,-283.88 341.16,-275.16 331.01,-278.22 335.13,-283.88"></polygon>
-</g>
-<!-- File1.1 -->
-<g id="node5" class="node">
-<title>File1.1</title>
-<ellipse fill="none" stroke="black" cx="38.13" cy="-134.93" rx="38.26" ry="38.26"></ellipse>
-<text text-anchor="middle" x="38.13" y="-130.73" font-family="Times,serif" font-size="14.00">File1.1</text>
-</g>
-<!-- Folder1&#45;&gt;File1.1 -->
-<g id="edge4" class="edge">
-<title>Folder1-&gt;File1.1</title>
-<path fill="none" stroke="black" d="M104.5,-217.6C93.2,-203.69 79.84,-187.25 68.08,-172.78"></path>
-<polygon fill="black" stroke="black" points="70.75,-170.52 61.73,-164.97 65.32,-174.94 70.75,-170.52"></polygon>
-</g>
-<!-- File1.2 -->
-<g id="node6" class="node">
-<title>File1.2</title>
-<ellipse fill="none" stroke="black" cx="132.13" cy="-134.93" rx="38.26" ry="38.26"></ellipse>
-<text text-anchor="middle" x="132.13" y="-130.73" font-family="Times,serif" font-size="14.00">File1.2</text>
-</g>
-<!-- Folder1&#45;&gt;File1.2 -->
-<g id="edge5" class="edge">
-<title>Folder1-&gt;File1.2</title>
-<path fill="none" stroke="black" d="M130.84,-208.91C130.99,-200.68 131.14,-191.96 131.29,-183.5"></path>
-<polygon fill="black" stroke="black" points="134.79,-183.44 131.47,-173.38 127.79,-183.32 134.79,-183.44"></polygon>
-</g>
-<!-- File2.1 -->
-<g id="node7" class="node">
-<title>File2.1</title>
-<ellipse fill="none" stroke="black" cx="229.13" cy="-134.93" rx="38.26" ry="38.26"></ellipse>
-<text text-anchor="middle" x="229.13" y="-130.73" font-family="Times,serif" font-size="14.00">File2.1</text>
-</g>
-<!-- Folder2&#45;&gt;File2.1 -->
-<g id="edge6" class="edge">
-<title>Folder2-&gt;File2.1</title>
-<path fill="none" stroke="black" d="M229.78,-208.91C229.7,-200.68 229.63,-191.96 229.55,-183.5"></path>
-<polygon fill="black" stroke="black" points="233.05,-183.35 229.46,-173.38 226.05,-183.41 233.05,-183.35"></polygon>
-</g>
-<!-- File3.1 -->
-<g id="node8" class="node">
-<title>File3.1</title>
-<ellipse fill="none" stroke="black" cx="323.13" cy="-134.93" rx="38.26" ry="38.26"></ellipse>
-<text text-anchor="middle" x="323.13" y="-130.73" font-family="Times,serif" font-size="14.00">File3.1</text>
-</g>
-<!-- Folder3&#45;&gt;File3.1 -->
-<g id="edge7" class="edge">
-<title>Folder3-&gt;File3.1</title>
-<path fill="none" stroke="black" d="M357.57,-212.38C352.85,-201.9 347.66,-190.37 342.77,-179.52"></path>
-<polygon fill="black" stroke="black" points="345.87,-177.88 338.57,-170.2 339.48,-180.75 345.87,-177.88"></polygon>
-</g>
-<!-- File3.2 -->
-<g id="node9" class="node">
-<title>File3.2</title>
-<ellipse fill="none" stroke="black" cx="417.13" cy="-134.93" rx="38.26" ry="38.26"></ellipse>
-<text text-anchor="middle" x="417.13" y="-130.73" font-family="Times,serif" font-size="14.00">File3.2</text>
-</g>
-<!-- Folder3&#45;&gt;File3.2 -->
-<g id="edge8" class="edge">
-<title>Folder3-&gt;File3.2</title>
-<path fill="none" stroke="black" d="M388.45,-211.44C392.23,-201.5 396.34,-190.68 400.24,-180.41"></path>
-<polygon fill="black" stroke="black" points="403.61,-181.38 403.89,-170.79 397.07,-178.89 403.61,-181.38"></polygon>
-</g>
-<!-- File3.3 -->
-<g id="node10" class="node">
-<title>File3.3</title>
-<ellipse fill="none" stroke="black" cx="511.13" cy="-134.93" rx="38.26" ry="38.26"></ellipse>
-<text text-anchor="middle" x="511.13" y="-130.73" font-family="Times,serif" font-size="14.00">File3.3</text>
-</g>
-<!-- Folder3&#45;&gt;File3.3 -->
-<g id="edge9" class="edge">
-<title>Folder3-&gt;File3.3</title>
-<path fill="none" stroke="black" d="M405.56,-223.17C426.02,-206.26 452.78,-184.15 474.24,-166.41"></path>
-<polygon fill="black" stroke="black" points="476.7,-168.92 482.18,-159.85 472.25,-163.52 476.7,-168.92"></polygon>
-</g>
-<!-- Flie2.1.1 -->
-<g id="node11" class="node">
-<title>Flie2.1.1</title>
-<ellipse fill="none" stroke="black" cx="229.13" cy="-42.8" rx="45.25" ry="18"></ellipse>
-<text text-anchor="middle" x="229.13" y="-38.6" font-family="Times,serif" font-size="14.00">Flie2.1.1</text>
-</g>
-<!-- File2.1&#45;&gt;Flie2.1.1 -->
-<g id="edge10" class="edge">
-<title>File2.1-&gt;Flie2.1.1</title>
-<path fill="none" stroke="black" d="M229.13,-96.75C229.13,-88.12 229.13,-79.09 229.13,-70.98"></path>
-<polygon fill="black" stroke="black" points="232.63,-70.97 229.13,-60.97 225.63,-70.97 232.63,-70.97"></polygon>
-</g>
-</g>
-</svg>
-</div>
-<p></p></figure><p></p>
-</div>
-</div>
-</div>
-<p>The search shall begin at the Root directory with L=2. Each directory would be explored recursively with files and subdirectories within L being visited. A Stack would be maintained to manage visited directories while directories and files with depth&gt;L would be ignored. Backtracking would be continued to explore other branches within L. If the desired file is found within the limit L, return its path. Or else, it is to be concluded that the file being looked for is not in the allowed depth. Thus, the traverse path would follow the following pattern:</p>
-<ul>
-<li>
-Root →Folder 1→File 1.1→[BACKTRACK]→Folder 1→File 1.2
-</li>
-<li>
-[BACKTRACK]→Root→Folder 2→Folder 2.1 (Not its contents because they are at depth=3)
-</li>
-<li>
-[BACKTRACK]→Root→Folder 3→File 3.1→[BACKTRACK]→Folder 3→[BACKTRACK]→File 3.2→[BACKTRACK]→Folder 3→File 3.3
-</li>
-</ul>
-<p>Beyond depth 2, the search will not proceed.</p>
+<p>A search algorithm is said to be admissible if it is guaranteed to return an optimal solution if one exists. In case of A*, we have :</p>
+<p><span class="math display">\[ f^*(n)= g^*(n)+h^*(n) \]</span></p>
+<p>Where g<em>(n) is the optimal cost of a path from start state to the current node, h</em>(n) is the optimal cost of a path from node n to goal state, and f*(n) is the optimal cost of a path from start state to goal state via node n.&nbsp;For any given node n, the following condition must be satisfied:</p>
+<p><span class="math display">\[ \( g^*(n) \leq g(n) \) \]</span> <span class="math display">\[ \( h(n) \leq h^*(n) \) \]</span></p>
 </section>
-<section id="dls-algorithm-implementation" class="level3">
-<h3 class="anchored" data-anchor-id="dls-algorithm-implementation">DLS Algorithm Implementation</h3>
-<p>The following cell implements the Depth Limited Search (DLS) algorithm, which is a variant of Depth First Search (DFS) with a maximum search depth limit. The function <code>dls()</code> explores a graph from a given starting node, looking for a path to the target node. It limits the depth of the search and ensures that no node is revisited. The function returns the path if found, or <code>None</code> if no path is found within the given depth limit.</p>
-<div id="4a3d8a92" class="cell" data-execution_count="1">
+<section id="a-algorithm-implementation" class="level3">
+<h3 class="anchored" data-anchor-id="a-algorithm-implementation">A* Algorithm Implementation</h3>
+<p>This snippet initializes the A* algorithm by setting up a priority queue (<code>open_set</code>) to store nodes based on their total estimated cost (<code>f = g + h</code>). It uses the Manhattan distance as a heuristic function to estimate the cost of moving from the current node to the target. The priority queue helps prioritize nodes with lower <code>f</code> values, facilitating an efficient search for the shortest path.</p>
+<div id="b3ebea16" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to perform Depth Limited Search to find a path from start to target</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> dls(graph, start, target, limit, path<span class="op">=</span><span class="va">None</span>, visited<span class="op">=</span><span class="va">None</span>):</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Initialize the path and visited set if they are not provided</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> path <span class="kw">is</span> <span class="va">None</span>:</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        path <span class="op">=</span> []</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> visited <span class="kw">is</span> <span class="va">None</span>:</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        visited <span class="op">=</span> <span class="bu">set</span>()</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add the current node to the path and visited set</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    path.append(start)</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    visited.add(start)</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># If we found the target, return the path</span></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> start <span class="op">==</span> target:</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> path</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># If the depth limit is reached, stop further exploration</span></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> limit <span class="op">==</span> <span class="dv">0</span>:</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">None</span></span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Explore the neighbors of the current node</span></span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> neighbor <span class="kw">in</span> graph[start]:</span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>        <span class="co"># If the neighbor has not been visited yet, recurse deeper with reduced limit</span></span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> neighbor <span class="kw">not</span> <span class="kw">in</span> visited:</span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>            result <span class="op">=</span> dls(graph, neighbor, target, limit <span class="op">-</span> <span class="dv">1</span>, path, visited)</span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>            <span class="co"># If a valid path is found, return it</span></span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> result:</span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>                <span class="cf">return</span> result</span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>    <span class="co"># If no path is found, return None</span></span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">None</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># You are given a grid with cells that have a cost of moving through them. The goal is to find the shortest path from a starting point to a target point using the A* algorithm.</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> heapq <span class="im">import</span> heappop, heappush</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<p>In this cell, an example graph is represented as an adjacency list. The graph has nodes and edges, with each node pointing to its neighbors. The function <code>dls()</code> is called with a starting node, target node, and depth limit to search for a path. The result is printed to indicate whether a path was found or not within the specified depth limit.</p>
-<div id="6c7abd37" class="cell" data-execution_count="2">
+<p>The <code>heuristic</code> function calculates the Manhattan distance between two points, which is the sum of the absolute differences in their x and y coordinates. This heuristic is admissible for grid-based pathfinding, as it never overestimates the true cost of the shortest path. It provides an estimate of how far the target is from a given node, guiding the A* algorithm toward the optimal path.</p>
+<div id="ce451f54" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example graph represented as an adjacency list</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>graph <span class="op">=</span> {</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="dv">0</span>: [<span class="dv">1</span>, <span class="dv">2</span>],</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="dv">1</span>: [<span class="dv">0</span>, <span class="dv">3</span>],</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="dv">2</span>: [<span class="dv">0</span>, <span class="dv">3</span>],</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="dv">3</span>: [<span class="dv">1</span>, <span class="dv">2</span>]</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Starting and target nodes</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>start_node <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>target_node <span class="op">=</span> <span class="dv">3</span></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Depth limit for the search</span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>depth_limit <span class="op">=</span> <span class="dv">1</span></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Call the DLS function to find the path</span></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> dls(graph, start_node, target_node, depth_limit)</span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the result</span></span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> path:</span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Path found from </span><span class="sc">{</span>start_node<span class="sc">}</span><span class="ss"> to </span><span class="sc">{</span>target_node<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>path<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"No path found from </span><span class="sc">{</span>start_node<span class="sc">}</span><span class="ss"> to </span><span class="sc">{</span>target_node<span class="sc">}</span><span class="ss"> within depth limit </span><span class="sc">{</span>depth_limit<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to calculate the Manhattan distance heuristic (h) between two points</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> heuristic(a, b):</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">abs</span>(a[<span class="dv">0</span>] <span class="op">-</span> b[<span class="dv">0</span>]) <span class="op">+</span> <span class="bu">abs</span>(a[<span class="dv">1</span>] <span class="op">-</span> b[<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>This function implements the A* algorithm to find the shortest path on a grid. It uses a priority queue to explore nodes, expanding in order of lowest <code>f</code> (total cost). For each node, it evaluates neighboring cells, computes tentative costs, and updates the best path if a lower-cost route is found. If the target is reached, the path is reconstructed from the <code>came_from</code> dictionary. If no path exists, it returns an empty list.</p>
+<div id="a6d261f7" class="cell" data-execution_count="3">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to perform A* search and find the shortest path</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> astar(grid, start, target):</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create a priority queue to store nodes to visit, prioritized by f = g + h</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    open_set <span class="op">=</span> []</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    heappush(open_set, (<span class="dv">0</span> <span class="op">+</span> heuristic(start, target), <span class="dv">0</span>, start))  <span class="co"># (f, g, node)</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Dictionary to store the cost of the path to each node (g value)</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    g_costs <span class="op">=</span> {start: <span class="dv">0</span>}</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Dictionary to store the parent of each node to reconstruct the path later</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    came_from <span class="op">=</span> {}</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Directions for moving in the grid: up, down, left, right</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    directions <span class="op">=</span> [(<span class="op">-</span><span class="dv">1</span>, <span class="dv">0</span>), (<span class="dv">1</span>, <span class="dv">0</span>), (<span class="dv">0</span>, <span class="op">-</span><span class="dv">1</span>), (<span class="dv">0</span>, <span class="dv">1</span>)]</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> open_set:</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Get the node with the lowest f value from the priority queue</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>        _, g, current <span class="op">=</span> heappop(open_set)</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>        <span class="co"># If we've reached the target, reconstruct and return the path</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> current <span class="op">==</span> target:</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>            path <span class="op">=</span> []</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>            <span class="cf">while</span> current <span class="kw">in</span> came_from:</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>                path.append(current)</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>                current <span class="op">=</span> came_from[current]</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>            path.append(start)</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>            path.reverse()</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> path</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Explore each neighbor</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> direction <span class="kw">in</span> directions:</span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>            neighbor <span class="op">=</span> (current[<span class="dv">0</span>] <span class="op">+</span> direction[<span class="dv">0</span>], current[<span class="dv">1</span>] <span class="op">+</span> direction[<span class="dv">1</span>])</span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Skip out-of-bounds neighbors</span></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> (<span class="dv">0</span> <span class="op">&lt;=</span> neighbor[<span class="dv">0</span>] <span class="op">&lt;</span> <span class="bu">len</span>(grid)) <span class="kw">and</span> (<span class="dv">0</span> <span class="op">&lt;=</span> neighbor[<span class="dv">1</span>] <span class="op">&lt;</span> <span class="bu">len</span>(grid[<span class="dv">0</span>])):</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>                <span class="co"># Calculate the tentative g score for the neighbor</span></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>                tentative_g <span class="op">=</span> g <span class="op">+</span> grid[neighbor[<span class="dv">0</span>]][neighbor[<span class="dv">1</span>]]</span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>                </span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>                <span class="co"># If the neighbor hasn't been visited or we've found a better path</span></span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> neighbor <span class="kw">not</span> <span class="kw">in</span> g_costs <span class="kw">or</span> tentative_g <span class="op">&lt;</span> g_costs[neighbor]:</span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>                    g_costs[neighbor] <span class="op">=</span> tentative_g</span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>                    f_score <span class="op">=</span> tentative_g <span class="op">+</span> heuristic(neighbor, target)</span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>                    heappush(open_set, (f_score, tentative_g, neighbor))</span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>                    came_from[neighbor] <span class="op">=</span> current</span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>    <span class="co"># If no path is found, return an empty list</span></span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> []</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>The final snippet demonstrates the A* algorithm on a simple 4x4 grid, where each cell has a movement cost. The start point is at the top-left corner (<code>0, 0</code>), and the target is at the bottom-right corner (<code>3, 3</code>). The function <code>astar()</code> is called to find the shortest path, and the resulting path is printed, showing the optimal route based on the given grid’s costs.</p>
+<div id="5f74bb58" class="cell" data-execution_count="4">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example grid (cost to move through each cell)</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>grid <span class="op">=</span> [</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">10</span>],</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">1</span>],</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    [<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>],</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    [<span class="dv">10</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>]</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>start_node <span class="op">=</span> (<span class="dv">0</span>, <span class="dv">0</span>)  <span class="co"># Top-left corner</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>target_node <span class="op">=</span> (<span class="dv">3</span>, <span class="dv">3</span>)  <span class="co"># Bottom-right corner</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>shortest_path <span class="op">=</span> astar(grid, start_node, target_node)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Shortest path from"</span>, start_node, <span class="st">"to"</span>, target_node, <span class="st">":"</span>, shortest_path)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>No path found from 0 to 3 within depth limit 1</code></pre>
+<pre><code>Shortest path from (0, 0) to (3, 3) : [(0, 0), (1, 0), (2, 0), (2, 1), (2, 2), (2, 3), (3, 3)]</code></pre>
 </div>
 </div>
 
@@ -709,7 +444,7 @@ Root →Folder 1→File 1.1→[BACKTRACK]→Folder 1→File 1.2
 <div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
 
 <ol>
-<li id="fn1"><p>Kumar, R. R., Vadlapatla, T. S. S., Azmeera, S., Komaraneni, A., &amp; Jula, A. (2023). Performance Comparison of Depth Limited Search and A* Algorithm: A Case Study. In E3S Web of Conferences (Vol. 391, p.&nbsp;01140). EDP Sciences. <a href="https://www.e3s-conferences.org/articles/e3sconf/pdf/2023/28/e3sconf_icmed-icmpc2023_01140.pdf">Link</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>Hart, P. E., Nilsson, N. J., &amp; Raphael, B. (1968). A formal basis for the heuristic determination of minimum cost paths. IEEE transactions on Systems Science and Cybernetics, 4(2), 100-107. <a href="https://ieeexplore.ieee.org/abstract/document/4082128">Link</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -1275,13 +1010,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./dfs.html" class="pagination-link" aria-label="Depth-First Search (DFS)">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Depth-First Search (DFS)</span>
+      <a href="./informed.html" class="pagination-link" aria-label="Informed Search Overview">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Informed Search Overview</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./iddfs.html" class="pagination-link" aria-label="Iterative Deepening DFS (IDDFS)">
-        <span class="nav-page-text">Iterative Deepening DFS (IDDFS)</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./idastar.html" class="pagination-link" aria-label="Iterative Deepening A* (IDA*)">
+        <span class="nav-page-text">Iterative Deepening A* (IDA*)</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

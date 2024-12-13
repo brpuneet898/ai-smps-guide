@@ -29,6 +29,12 @@ website:
         contents:
           - text: "Informed Search Overview"
             href: informed.qmd
+          - text: "A*"
+            href: astar.qmd
+          - text: "Iterative Deepening A* (IDA*)"
+            href: idastar.qmd
+          - text: "Memory Bounded A* (MBA*)"
+            href: mbastar.qmd
 
 theme:
   light: litera

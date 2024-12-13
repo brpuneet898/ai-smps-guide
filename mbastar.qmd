@@ -1,0 +1,128 @@
+---
+title: "Memory Bounded A*"
+format:
+  html:
+    code-fold: true
+jupyter: python3
+page-navigation: true
+---
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-43XXVJQ0JD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-43XXVJQ0JD');
+</script>
+
+Memory-Bounded A* (MA*), a variant of A* algorithm, is based on the idea of utilising memory to reduce time as long as the memory does not exceed a given threshold. Thus, MA* replicates the behaviour of A* as long as memory is sufficient. Once the memory limit is reached, it begins to discard high f-value lead nodes to allocate resources to more promising ones. To avoid infinite loops, it propagates f-values back through the tree. This approach enables rapid exploration of the state space when memory is available and resorts to re-exapnding some nodes only when memory is constrained. Pragmatically, under realistic memory limits, node re-expansion is minimal, resulting in an efficient search method that ensures complex state spaces do not surpass system memory. 
+
+### Pseudocode for Memory Bounded A* Algorithm
+
+```plaintext
+1. function MAStar(graph, start, target, memoryLimit):
+2.     openList = {start}
+3.     closedList = set()
+4.     gScore[start] = 0
+5.     fScore[start] = heuristic(start, target)
+6.     while openList is not empty:
+7.         current = node in openList with the lowest fScore
+8.         if current == target, return path
+9.         remove current from openList and add to closedList
+10.         for each neighbor of current:
+11.             if neighbor in closedList, continue
+12.             tentative_gScore = gScore[current] + cost(current, neighbor)
+13.             if neighbor not in openList or tentative_gScore < gScore[neighbor]:
+14.                 gScore[neighbor] = tentative_gScore
+15.                 fScore[neighbor] = gScore[neighbor] + heuristic(neighbor, target)
+16.                 if memory usage exceeds memoryLimit, prune least promising nodes from openList
+17.                 add neighbor to openList
+18.     return failure
+```
+
+On the other hand, Simplified MA* (SMA*), as the name suggests, takes the concept of MA* and simplifies the implementation. It utilises a binary tree for managing the open list offering greater efficiency compared to the less optimised data structure used by MA*. Unlike MA*, which requires storing four different f-values, SMA* simplifies storage by handling only a single f-value. Additionally SMA* performs the backup process only when a node is fully expanded, rather than at every node generation. Pruning in SMA* is also more targeted, removing just enough nodes to stay within the memory limit, as opposed to MA*, which prunes many less promising nodes simultaneously. [^1], [^2], [^3]
+
+### Memory Bounded A* Algorithm Implementation
+
+The `heuristic` function calculates the Manhattan distance between two points. It computes the sum of the absolute differences in their x and y coordinates, providing an estimate of the cost to reach the target from a given node. This heuristic is well-suited for grid-based environments where diagonal movement is restricted, and it helps prioritize nodes that are closer to the goal in algorithms like A* and its variants.
+
+```{python}
+from heapq import heappop, heappush
+
+# A helper function for calculating the Manhattan distance heuristic (h) between two points
+def heuristic(a, b):
+    return abs(a[0] - b[0]) + abs(a[1] - b[1])
+```
+
+The `mbastar` function implements a variant of the A* algorithm called Memory-Bounded A* (MBA*), which limits the number of nodes stored in memory during the search. A set `memory` tracks visited nodes, and if the number of nodes exceeds a specified `memory_limit`, further paths are pruned. This helps manage memory usage in environments with large state spaces by ensuring the search remains within practical limits while still attempting to find the optimal path.
+
+```{python}
+# Memory-Bounded A* algorithm
+def mbastar(grid, start, target, memory_limit=10):
+    # A helper function to perform the search with a given memory limit
+    def search(node, g, path, memory):
+        f = g + heuristic(node, target)  # Calculate f = g + h
+
+        # If memory is full, prune the path (we limit the number of nodes stored in memory)
+        if len(memory) > memory_limit:
+            return float('inf')  # Return a large f value to prune this path
+
+        if node == target:
+            return path  # Found the target, return the path
+
+        # Add the current node to memory
+        memory.add(node)
+
+        directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]  # Possible moves: up, down, left, right
+        
+        # Explore neighbors
+        for direction in directions:
+            neighbor = (node[0] + direction[0], node[1] + direction[1])
+
+            # Ensure the neighbor is within bounds of the grid
+            if 0 <= neighbor[0] < len(grid) and 0 <= neighbor[1] < len(grid[0]):
+                # Skip already visited nodes in the current path or in memory
+                if neighbor not in path and neighbor not in memory:
+                    new_path = path + [neighbor]
+                    result = search(neighbor, g + grid[neighbor[0]][neighbor[1]], new_path, memory)
+                    if isinstance(result, list):  # If a valid path is returned
+                        return result
+
+        # If no valid path is found, return a high f value to prune this path
+        return float('inf')
+
+    # Start with an empty memory set
+    memory = set()
+
+    # Perform the search, starting with the initial node and heuristic as the limit
+    result = search(start, 0, [start], memory)
+
+    if isinstance(result, list):  # Found the path
+        return result
+    return []  # No solution found within memory limit
+```
+
+This snippet demonstrates the use of the Memory-Bounded A* algorithm on a 4x4 grid, where each cell has a movement cost. The start point is `(0, 0)`, and the target is `(3, 1)`. The algorithm is executed with a memory limit of 10 nodes, and the shortest path between the two points is calculated. The resulting path is printed, showing the optimal route given the grid's costs and the memory constraint.
+
+```{python}
+# Example grid (cost to move through each cell)
+grid = [
+    [1, 2, 1, 10],
+    [1, 2, 1, 1],
+    [1, 1, 1, 1],
+    [10, 1, 1, 1]
+]
+
+start_node = (0, 0)  # Top-left corner
+target_node = (3, 1)  # Bottom-right corner
+memory_limit = 10  # Maximum memory limit for the search
+shortest_path = mbastar(grid, start_node, target_node, memory_limit)
+
+print("Shortest path from", start_node, "to", target_node, ":", shortest_path)
+```
+
+[^1]: Zhou, R., & Hansen, E. A. (2002, May). Memory-Bounded A* Graph Search. In FLAIRS (pp. 203-209). [Link](https://cdn.aaai.org/FLAIRS/2002/FLAIRS02-041.pdf)
+[^2]: Lovinger, J., & Zhang, X. (2017, October). Enhanced Simplified Memory-bounded A Star (SMA*+). In GCAI (pp. 202-212). [Link](http://www.cis.umassd.edu/~x2zhang/home/pub/C2-GCAI2017-SMA.pdf)
+[^3]: Chakrabarti, P. P., Ghose, S., Acharya, A., & De Sarkar, S. C. (1989). Heuristic search in restricted memory. Artificial intelligence, 41(2), 197-221. [Link](https://www.sciencedirect.com/science/article/abs/pii/0004370289900106)

@@ -219,6 +219,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Informed Search Overview</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./astar.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">A*</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./idastar.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Iterative Deepening A* (IDA*)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./mbastar.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Memory Bounded A* (MBA*)</span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -382,7 +400,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="iddfs-algorithm-implementation" class="level3">
 <h3 class="anchored" data-anchor-id="iddfs-algorithm-implementation">IDDFS Algorithm Implementation</h3>
 <p>The first code cell defines the <code>dls()</code> function, which is used in the IDDFS algorithm. It implements the Depth Limited Search (DLS) technique, where a search is conducted up to a specific depth limit. The function explores neighbors of the current node and recurses with a reduced depth limit. If a path to the target node is found, it is returned; otherwise, the function continues the search until the depth limit is reached or a path is found.</p>
-<div id="5462fa2b" class="cell" data-execution_count="1">
+<div id="816a9064" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Depth Limited Search (DLS) function used by IDDFS</span></span>
@@ -417,7 +435,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 </div>
 <p>The second code cell implements the Iterative Deepening Depth First Search (IDDFS) algorithm. This approach repeatedly performs a depth-limited search (<code>dls()</code>) with increasing depth limits, starting from 0 and going upwards. After each search at a given depth, if the target node is found, the path is returned. If not, the depth limit is incremented, and the search continues at the next depth level, ensuring the algorithm eventually finds the target if it’s reachable.</p>
-<div id="403b8787" class="cell" data-execution_count="2">
+<div id="7f16506f" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Iterative Deepening DFS (IDDFS) function</span></span>
@@ -437,7 +455,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 </div>
 <p>In the third code cell, an example graph is represented as an adjacency list, with nodes connected by edges. The <code>iddfs()</code> function is called to find a path from the starting node to the target node. The result is printed, showing whether a path was found and the corresponding path, or indicating that no path was found.</p>
-<div id="6cd775a4" class="cell" data-execution_count="3">
+<div id="f04a7373" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example graph represented as an adjacency list</span></span>
